@@ -1,7 +1,7 @@
 
 Template.listings.helpers({
   listings: function () {
-    return Session.get('listings')
+    return Listings.find();
   }
 });
 
@@ -10,9 +10,7 @@ Template.listings.events({
     Meteor.call('scrape', function (error, result) {
       if (error) {
         console.log(error);
-      } else {
-        console.log(result);
-        Session.set('listings', result);
+        throw new Meteor.Error(500, error);
       }
     });
   }

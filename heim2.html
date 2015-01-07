@@ -9,11 +9,20 @@
 </body>
 
 <template name="listings">
-  <div>
-    {{listings}}
-  </div>
+  {{#each listings}}
+    {{> listing}}
+  {{/each}}
 
   <p>
     <button>Refresh</button>
   </p>
+</template>
+
+
+<template name="listing">
+  <img src="{{image}}" />
+  <h6 class="title">{{title}}</h6>
+  <span class="m2">{{m2}}m<sup>2</sup></span>
+  <span class="price">&euro;{{price}}</span>
+  <a href="{{link}}" target="_blank">Link</a>
 </template>
