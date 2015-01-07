@@ -13,3 +13,6 @@ meteorhacks:npm
 
 npm-container
 mrt:cheerio
+mizzao:bootstrap-3
+konecty:change-case
+meteorhacks:async

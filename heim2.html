@@ -3,26 +3,44 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  {{> navbar}}
 
-  {{> listings}}
+  <div class="container-fluid">
+    {{> listings}}
+  </div>
 </body>
 
 <template name="listings">
   {{#each listings}}
-    {{> listing}}
+    <div class="row">
+      {{> listing}}
+    </div>
   {{/each}}
+</template>
 
-  <p>
-    <button>Refresh</button>
-  </p>
+<template name="refresh">
+  <div class="navbar-form">
+    <button class="btn btn-default navabar-btn">Refresh</button>
+  </div>
 </template>
 
 
 <template name="listing">
-  <img src="{{image}}" />
-  <h6 class="title">{{title}}</h6>
-  <span class="m2">{{m2}}m<sup>2</sup></span>
-  <span class="price">&euro;{{price}}</span>
-  <a href="{{link}}" target="_blank">Link</a>
+  <article>
+    <div class="col-md-8 photos">
+      <img src="{{image}}" />
+      {{#each images}}
+        <img src="{{this}}" />
+      {{/each}}
+    </div>
+    <div class="col-md-4">
+      <strong class="plz">{{plz}}</strong>
+      <span class="title">{{title}}</span>
+      <span class="m2">{{m2}}m<sup>2</sup></span>
+      <span class="rooms">{{rooms}} Zimmer</span>
+      <span class="price">&euro;{{price}}</span>
+      <a href="{{link}}" target="_blank">Link</a>
+    </div>
+
+  </article>
 </template>

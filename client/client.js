@@ -5,7 +5,7 @@ Template.listings.helpers({
   }
 });
 
-Template.listings.events({
+Template.refresh.events({
   'click button': function () {
     Meteor.call('scrape', function (error, result) {
       if (error) {
