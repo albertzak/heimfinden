@@ -35,11 +35,18 @@
     </div>
     <div class="col-md-4">
       <strong class="plz">{{plz}}</strong>
-      <span class="title">{{title}}</span>
-      <span class="m2">{{m2}}m<sup>2</sup></span>
-      <span class="rooms">{{rooms}} Zimmer</span>
-      <span class="price">&euro;{{price}}</span>
+      <p>{{title}}</p>
+      <p>{{m2}}m<sup>2</sup></p>
+      <p>{{rooms}} Zimmer</p>
+      <p>&euro;{{price}}</p>
       <a href="{{link}}" target="_blank">Link</a>
+      <p>Source: {{scrapeSource}}</p>
+      <p>Result last scraped {{formatTime scrapeTimestamp}}</p>
+      <p>Detail last scraped {{formatTime detailTimestamp}}</p>
+      <p>Source last updated {{formatTime sourceTimestamp}}</p>
+      <p>{{{desc}}}</p>
+      <p>{{{street}}}</p>
+      <p>{{{agency}}}</p>
     </div>
 
   </article>

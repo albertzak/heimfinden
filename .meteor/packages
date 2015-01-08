@@ -16,3 +16,5 @@ mrt:cheerio
 mizzao:bootstrap-3
 konecty:change-case
 meteorhacks:async
+mrt:moment
+mrt:moment-timezone
