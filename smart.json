@@ -1,0 +1,8 @@
+{
+  "packages": {
+    "timmyg:meteor-nouislider": {
+      "git": "https://github.com/timmyg/meteor-noUiSlider"
+    }
+  }
+}
+

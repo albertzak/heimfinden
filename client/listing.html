@@ -1,0 +1,86 @@
+<template name="listing">
+  <section class="listing">
+    <div class="col-md-12">
+      <div class="row">
+        <!-- photos row -->
+        <div class="col-md-12 photos">
+          <ul class="list-inline">
+            {{#each images}}
+              <li>
+                <img src="{{this}}" />
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Left -->
+        <div class="col-md-2">
+
+        </div>
+
+        <!-- Middle -->
+        <div class="col-md-8">
+
+          <!-- Price, m2, Price/m2 -->
+          <h1 class="text-center">
+            <span class="sp">
+              <small>&euro;</small>{{price}}
+            </span>
+
+            <span class="sp">
+              {{m2}}<small>m<sup>2</sup></small>
+            </span>
+
+            <span class="sp">
+              {{pricem2}}<small>&euro;/m<sup>2</sup></small>
+            </span>
+          </h1>
+
+          <!-- Agency, Street, PLZ -->
+          <h4 class="text-center">
+            <span {{agencyLabel}}>{{agency}}</span>
+            {{street}}
+            <span class="label label-default">{{plz}}</span>
+          </h4>
+
+          <!-- Source, Timestamp -->
+          <p class="text-center">
+            Gefunden
+            <abbr title="{{humanTime sourceTimestamp}}" data-livestamp="{{isoTime sourceTimestamp}}" data-toggle="tooltip" data-placement="bottom"></abbr>
+            auf
+            <a href="{{link}}" target="_blank" title="Öffnen in einem neuen Tab">
+              {{scrapeSource}}
+              <small class="glyphicon glyphicon-new-window"></small>
+            </a>
+          </p>
+
+        </div>
+
+        <!-- Right -->
+        <div class="col-md-2">
+          
+
+        </div>
+      </div>
+    </div>
+
+
+<!--         <strong class="plz">{{plz}}</strong>
+        <p>{{title}}</p>
+        <p>{{rooms}} Zimmer</p>
+        <a href="{{link}}" target="_blank">Link</a>
+        <p>Source: {{scrapeSource}}</p>
+        <p>Result last scraped {{formatTime scrapeTimestamp}}</p>
+        <p>Detail last scraped {{formatTime detailTimestamp}}</p>
+        <p>Source last updated {{formatTime sourceTimestamp}}</p>
+        <p>{{{desc}}}</p>
+        <p>{{{street}}}</p>
+        <p>{{{agency}}}</p>
+      </div>
+    </div>
+ -->
+  <div class="clearfix clear"></div>
+  </section>
+</template>

@@ -17,37 +17,3 @@
     </div>
   {{/each}}
 </template>
-
-<template name="refresh">
-  <div class="navbar-form">
-    <button class="btn btn-default navabar-btn">Refresh</button>
-  </div>
-</template>
-
-
-<template name="listing">
-  <article>
-    <div class="col-md-8 photos">
-      <img src="{{image}}" />
-      {{#each images}}
-        <img src="{{this}}" />
-      {{/each}}
-    </div>
-    <div class="col-md-4">
-      <strong class="plz">{{plz}}</strong>
-      <p>{{title}}</p>
-      <p>{{m2}}m<sup>2</sup></p>
-      <p>{{rooms}} Zimmer</p>
-      <p>&euro;{{price}}</p>
-      <a href="{{link}}" target="_blank">Link</a>
-      <p>Source: {{scrapeSource}}</p>
-      <p>Result last scraped {{formatTime scrapeTimestamp}}</p>
-      <p>Detail last scraped {{formatTime detailTimestamp}}</p>
-      <p>Source last updated {{formatTime sourceTimestamp}}</p>
-      <p>{{{desc}}}</p>
-      <p>{{{street}}}</p>
-      <p>{{{agency}}}</p>
-    </div>
-
-  </article>
-</template>

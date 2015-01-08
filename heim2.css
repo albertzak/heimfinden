@@ -1,0 +1,50 @@
+body {
+  padding-top: 47px;
+}
+
+html, body {
+  height: 100%;
+}
+
+.listing {
+  margin-bottom: 47px;
+  margin-top: 47px;
+}
+
+.listing:first-child {
+  margin-top: 0;
+}
+
+.sp {
+  margin-right: 30px;
+}
+
+.sp:last-child {
+  margin-right: 0;
+}
+
+.photos {
+  max-height: 420px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding: 0;
+
+  background-color: #efefef;
+}
+
+.photos img {
+  margin-top: 10px;
+  max-height: 400px;
+}
+
+.filter-wrapper {
+}
+
+.filter-form {
+  z-index: 5;
+  width: 245px;
+  margin: auto auto;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

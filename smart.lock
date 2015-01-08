@@ -1,0 +1,18 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "timmyg:meteor-nouislider": {
+        "git": "https://github.com/timmyg/meteor-noUiSlider",
+        "branch": "master"
+      }
+    },
+    "packages": {
+      "timmyg:meteor-nouislider": {
+        "git": "https://github.com/timmyg/meteor-noUiSlider",
+        "branch": "master",
+        "commit": "949109729dfdedef35f3274801475ac0d3c13839"
+      }
+    }
+  }
+}

@@ -1,16 +1,59 @@
+moment.locale('de', {
+    relativeTime : {
+        future: "in %s",
+        past:   "vor %s",
+        s:  "sekungen",
+        m:  "einer Minute",
+        mm: "%d Minuten",
+        h:  "einer Stunde",
+        hh: "%d Stunden",
+        d:  "einem Tag",
+        dd: "%d Tagen",
+        M:  "einem Monat",
+        MM: "%d Monaten",
+        y:  "einem Jahr",
+        yy: "%d Jahren"
+    }
+});
 
 Template.listings.helpers({
   listings: function () {
-    return Listings.find();
+    return Listings.find({
+      pricem2: {$lt: Session.get('filter-pricem2') || Session.set('filter-pricem2', 12)}
+    },{
+      sort: {sourceTimestamp: -1},
+      limit: 10
+    });
   }
 });
 
-UI.registerHelper('formatTime', function(context, options) {
+Template.listing.helpers({
+  agencyLabel: function() {
+    if (this.agency === 'Privat') {
+      return { class: 'label label-success' };
+    } else {
+      return { class: 'label label-default' };
+    }
+  }
+})
+
+UI.registerHelper('humanTime', function(context, options) {
   if(context)
-    return moment(context, 'X').format('DD.MM.YYYY HH:mm');
+    return moment(context, 'X').format('[um] HH:mm [Uhr, am] DD.MM.YYYY');
   else
-    return 'never';
+    return '';
 });
+
+UI.registerHelper('isoTime', function(context, options) {
+  if(context)
+    return moment(context, 'X').toISOString();
+  else
+    return '';
+});
+
+Template.listing.rendered = function() {
+  $('[data-toggle="tooltip"]').tooltip();
+};
 
 Template.refresh.events({
   'click button': function () {

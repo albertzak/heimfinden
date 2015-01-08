@@ -32,8 +32,11 @@ Scraper = {
       var listingInfo = scraper.parseResult($, el);
       
       listingInfo = _.extend(listingInfo, {
+        title: listingInfo.title.trim(),
         scrapeSource: scraper.name,
-        scrapeTimestamp: Math.floor(Date.now() / 1000)
+        scrapeTimestamp: Math.floor(Date.now() / 1000),
+        price: Math.ceil(listingInfo.price),
+        pricem2: Math.round(listingInfo.price / listingInfo.m2),
       });
 
       if((typeof listingInfo.detailsTimestamp === 'undefined') || force) {
