@@ -21,7 +21,7 @@ Meteor.startup(function () {
       return {
         street: $$('.box-body.bg-blue dd').html().split('<br>')[0],
         rooms:  parseInt($$('.subHeading .mg-offset-2').text().match(/\d+/)),
-        images: Sanitize.findBetween($$('.galleria-container-wrapper script').text(), '"image":"', '","'),
+        images: Util.findBetween($$('.galleria-container-wrapper script').text(), '"image":"', '","'),
         sourceTimestamp: function() {
           date = $$('#advert-info-dateTime').html();
           date = date.trim().replace('Zuletzt geändert: ', '');

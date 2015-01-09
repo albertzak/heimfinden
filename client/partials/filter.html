@@ -1,28 +1,50 @@
-<template name="filter">
+<template name="filterButton">
   <div class="navbar-form">
     <a class="filter btn btn-default navabar-btn"
+
+      data-toggle="collapse"
+      href="#filterPanel"
+      aria-expanded="false"
+      aria-controls="filterPanel"
+
       role="button"
       tabindex="0"
-      data-toggle="popover"
-      data-placement="bottom"
+
       title="Filter">
       <i class="glyphicon glyphicon-filter"></i>
       Filter
     </a>
   </div>
+</template>
 
-  <div id="filter-content">
-    <div class="filter-wrapper">
+<template name="filterPanel">
+  <div class="collapse" id="filterPanel">
+    <div class="well">
+      <div class="row">
 
-      <h4>
-        <span class="text-muted">Max.</span> €{{filterPricem2}} <span class="text-muted">pro m<sup>2</sup></span>
-      </h4>
-      <div class="filter-form">
-        <div class="filter-pricem2"></div>
+        <div class="col-md-3">
+          <h4>Bezirk</h4>
+          {{#each plz}}
+            <span {{plzAttr this}}>{{this}}</span>
+          {{/each}}
+        </div>
+
+        <div class="col-md-3">
+        </div>
+
+        <div class="col-md-3">
+          <h4>
+            <span class="text-muted">Max.</span> €{{filterPricem2}} <span class="text-muted">pro m<sup>2</sup></span>
+          </h4>
+          <div class="filter-form">
+            <div class="filter-pricem2"></div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+        </div>
+
       </div>
-      <hr>
-
     </div>
   </div>
 </template>
-

@@ -19,7 +19,9 @@ moment.locale('de', {
 Template.listings.helpers({
   listings: function () {
     return Listings.find({
-      pricem2: {$lt: Session.get('filter-pricem2') || Session.set('filter-pricem2', 12)}
+      pricem2: {$lt: Session.get('filter-pricem2')},
+      // price:   {$lt: Session.get('filter-price')},
+      plz:     {$in: Util.objectToArray(Session.get('filter-plz'))}
     },{
       sort: {sourceTimestamp: -1},
       limit: 10
@@ -55,7 +57,7 @@ Template.listing.rendered = function() {
   $('[data-toggle="tooltip"]').tooltip();
 };
 
-Template.refresh.events({
+Template.refreshButton.events({
   'click button': function () {
     Meteor.call('scrape', function (error, result) {
       if (error) {

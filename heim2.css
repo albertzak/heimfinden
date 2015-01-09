@@ -48,3 +48,11 @@ html, body {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+.noUi-handle {
+  cursor: hand;
+}
+
+.label.toggle {
+  cursor: pointer;
+}
