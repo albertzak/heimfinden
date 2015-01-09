@@ -19,9 +19,10 @@ moment.locale('de', {
 Template.listings.helpers({
   listings: function () {
     return Listings.find({
-      pricem2: {$lt: Session.get('filter-pricem2')},
+      plz:     {$in: Util.objectToArray(Session.get('filter-plz'))},
       price:   {$lt: Session.get('filter-priceUpper'), $gt: Session.get('filter-priceLower')},
-      plz:     {$in: Util.objectToArray(Session.get('filter-plz'))}
+      pricem2: {$lt: Session.get('filter-pricem2')},
+      m2:      {$lt: Session.get('filter-m2Upper'), $gt: Session.get('filter-m2Lower')}    
     },{
       sort: {sourceTimestamp: -1},
       limit: 10

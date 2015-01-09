@@ -16,6 +16,9 @@ Meteor.startup(function() {
 
   Session.setDefault('filter-priceUpper', 1700);
   Session.setDefault('filter-priceLower', 100);
+
+  Session.set('filter-m2Upper', 400);
+  Session.set('filter-m2Lower', 10);
 })
 
 Template.filterButton.rendered = function() {
@@ -74,6 +77,26 @@ Template.filterButton.rendered = function() {
       }
     });
 
+    // m2 slider filter
+    $('.filter-m2').noUiSlider({
+      start: [
+        Session.get('filter-m2Lower'),
+        Session.get('filter-m2Upper')],
+      step: 10,
+      connect: true,
+      margin: 10,
+      range: {
+        'min': 10,
+        'max': 400
+      }
+    }).on({
+      slide: function() {
+        Session.set('filter-m2Upper', parseInt($('.filter-m2').val()[1]));
+        Session.set('filter-m2Lower', parseInt($('.filter-m2').val()[0]));
+      }
+    });
+
+
   // });
 
 };
@@ -105,6 +128,15 @@ Template.filterPanel.helpers({
 
   filterPricem2: function() {
     return Session.get('filter-pricem2');
-  }
+  },
+
+  filterm2Upper: function() {
+    return Session.get('filter-m2Upper');
+  },
+
+  filterm2Lower: function() {
+    return Session.get('filter-m2Lower');
+  },
+
 
 });
