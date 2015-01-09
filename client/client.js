@@ -1,19 +1,21 @@
-moment.locale('de', {
+Meteor.startup(function() {
+  moment.locale('de', {
     relativeTime : {
-        future: "in %s",
-        past:   "vor %s",
-        s:  "sekungen",
-        m:  "einer Minute",
-        mm: "%d Minuten",
-        h:  "einer Stunde",
-        hh: "%d Stunden",
-        d:  "einem Tag",
-        dd: "%d Tagen",
-        M:  "einem Monat",
-        MM: "%d Monaten",
-        y:  "einem Jahr",
-        yy: "%d Jahren"
+      future: "in %s",
+      past:   "vor %s",
+      s:  "5 Sekunden",
+      m:  "einer Minute",
+      mm: "%d Minuten",
+      h:  "einer Stunde",
+      hh: "%d Stunden",
+      d:  "einem Tag",
+      dd: "%d Tagen",
+      M:  "einem Monat",
+      MM: "%d Monaten",
+      y:  "einem Jahr",
+      yy: "%d Jahren"
     }
+  });
 });
 
 Template.listings.helpers({
@@ -82,14 +84,3 @@ UI.registerHelper('isoTime', function(context, options) {
 Template.listing.rendered = function() {
   $('[data-toggle="tooltip"]').tooltip();
 };
-
-Template.refreshButton.events({
-  'click button': function () {
-    Meteor.call('scrape', function (error, result) {
-      if (error) {
-        console.log(error);
-        throw new Meteor.Error(500, error);
-      }
-    });
-  }
-});

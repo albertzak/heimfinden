@@ -50,7 +50,14 @@
           <!-- Source, Timestamp -->
           <p class="text-center">
             Gefunden
-            <abbr title="{{humanTime sourceTimestamp}}" data-livestamp="{{isoTime sourceTimestamp}}" data-toggle="tooltip" data-placement="bottom"></abbr>
+            
+            <abbr 
+              title="{{humanTime sourceTimestamp}}"
+              data-livestamp="{{isoTime sourceTimestamp}}"
+              data-toggle="tooltip"
+              data-placement="bottom">
+            </abbr>
+
             auf
             <a href="{{link}}" target="_blank" title="Öffnen in einem neuen Tab">
               {{scrapeSource}}
