@@ -32,6 +32,10 @@ Template.listings.helpers({
 
 Template.listing.helpers({
   agencyLabel: function() {
+    return (this.agency === 'Privat' ? 'Privat' : 'Makler');
+  },
+
+  agencyAttr: function() {
     var provision = Math.ceil(this.price * 2);
     var deposit = Math.ceil(this.price * 3);
     var tax = Math.ceil(this.price * 36 * 0.01);
@@ -51,7 +55,8 @@ Template.listing.helpers({
         'class': 'label label-default',
         'title': '<b>€' + provision + ' Maklerprovision :(</b> <br>' +
                  '€' + deposit + ' Kaution <br>' +
-                 '€' + tax  + '&nbsp;&nbsp;Vergebührung',
+                 '€' + tax  + '&nbsp;&nbsp;Vergebührung <br><br>' +
+                 this.agency,
         'data-toggle':    'tooltip',
         'data-placement': 'left',
         'data-html': true

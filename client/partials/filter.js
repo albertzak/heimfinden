@@ -2,10 +2,10 @@ Meteor.startup(function() {
   Session.setDefault('filter-plz', {
     1010: 1,
     1030: 1,
-    1040: 0,
+    1040: 1,
     1060: 1,
     1070: 1,
-    1080: 0,
+    1080: 1,
     1090: 1,
     1170: 1,
     1180: 1,
@@ -22,14 +22,6 @@ Meteor.startup(function() {
 })
 
 Template.filterButton.rendered = function() {
-  // $('a.filter').popover({
-  //   html: true, 
-  //   content: function() {
-  //     return window.filterContent;
-  //   }
-  // });
-
-  // $('a.filter').on('shown.bs.popover', function () {
 
     // PLZ toggle filter
     $('.plz.toggle').click(function(e) {
@@ -95,10 +87,6 @@ Template.filterButton.rendered = function() {
         Session.set('filter-m2Lower', parseInt($('.filter-m2').val()[0]));
       }
     });
-
-
-  // });
-
 };
 
 Template.filterPanel.helpers({
