@@ -32,10 +32,30 @@ Template.listings.helpers({
 
 Template.listing.helpers({
   agencyLabel: function() {
+    var provision = Math.ceil(this.price * 2);
+    var deposit = Math.ceil(this.price * 3);
+    var tax = Math.ceil(this.price * 36 * 0.01);
+
     if (this.agency === 'Privat') {
-      return { class: 'label label-success' };
+      return { 
+        'class': 'label label-success',
+        'title': '<b>Keine Maklerprovision! :)</b> <br>' +
+                 '€' + deposit + ' Kaution <br>' +
+                 '€' + tax + '&nbsp;&nbsp;Vergebührung',
+        'data-toggle':    'tooltip',
+        'data-placement': 'left',
+        'data-html': true
+      };
     } else {
-      return { class: 'label label-default' };
+      return {
+        'class': 'label label-default',
+        'title': '<b>€' + provision + ' Maklerprovision :(</b> <br>' +
+                 '€' + deposit + ' Kaution <br>' +
+                 '€' + tax  + '&nbsp;&nbsp;Vergebührung',
+        'data-toggle':    'tooltip',
+        'data-placement': 'left',
+        'data-html': true
+      };
     }
   }
 })
