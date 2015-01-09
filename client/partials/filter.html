@@ -23,13 +23,21 @@
       <div class="row">
 
         <div class="col-md-3">
-          <h4>Bezirk</h4>
+          <h4 class="text-muted">Bezirk</h4>
           {{#each plz}}
             <span {{plzAttr this}}>{{this}}</span>
           {{/each}}
         </div>
 
         <div class="col-md-3">
+          <h4>
+            <span class="text-muted">Miete</span>
+            €{{filterPriceLower}}-€{{filterPriceUpper}}
+          </h4>
+
+          <div class="filter-form">
+            <div class="filter-price"></div>
+          </div>
         </div>
 
         <div class="col-md-3">

@@ -53,6 +53,10 @@ html, body {
   cursor: hand;
 }
 
+.noUi-connect {
+  background-color: #6fc86b;
+}
+
 .label.toggle {
   cursor: pointer;
 }

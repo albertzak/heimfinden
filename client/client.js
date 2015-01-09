@@ -20,7 +20,7 @@ Template.listings.helpers({
   listings: function () {
     return Listings.find({
       pricem2: {$lt: Session.get('filter-pricem2')},
-      // price:   {$lt: Session.get('filter-price')},
+      price:   {$lt: Session.get('filter-priceUpper'), $gt: Session.get('filter-priceLower')},
       plz:     {$in: Util.objectToArray(Session.get('filter-plz'))}
     },{
       sort: {sourceTimestamp: -1},
