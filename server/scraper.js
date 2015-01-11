@@ -1,34 +1,81 @@
 request = Meteor.npmRequire('request');
 
-Scrapers = {};
+Scrapers = {
+  all: {},
+  basicTargets: [],
 
-Scraper = {
-  all: [],
+  register: function(scraper) {
+    _.each(Object.keys(scraper), function(scraperName) {
+      scraper[scraperName].name = scraperName;
+    });
 
-  register: function(name) {
-    Scraper.all.push(name);
+    _.extend(Scrapers.all, scraper);
+
+    Scrapers.updateBasicTargets();
   },
 
-  each: function(iterate) {
-    _.each(Scraper.all, function(scraper) {
-      return iterate(scraper);
+  each: function(iteratee) {
+    _.each(Scrapers.all, function(scraper) {
+      return iteratee(scraper);
     });
+  },
+
+  updateBasicTargets: function() {
+    _.each(Scrapers.all, function(scraper) {
+      var tempBasicTargets = _.map(scraper.basicTargets, function(basicTarget) {
+        return _.extend(basicTarget, {
+          source: scraper.name,
+          parseType: 'basic'        
+        });
+      })
+
+      Scrapers.basicTargets = _.union(Scrapers.basicTargets, [tempBasicTargets]);
+    });
+  }
+};
+
+Scraper = {
+
+  seed: function() {
+    ScraperTasks.register(Scrapers.basicTargets);
   },
 
   run: function(force) {
     if (typeof force === 'undefined') { force = false; }
-    console.log('Running all', Scraper.all.length, 'scrapers');
-    Scraper.each(function(scraper) {
-      Scraper.run_single(scraper);
-    });
+
+    var task = ScraperTasks.getRandomTask();
+
+    if(task) {
+      task = task.payload;
+
+      if(task.parseType === 'basic')
+        success = Scraper.runBasic(task);
+      else if (task.parseType === 'detail')
+        success = Scraper.runDetail(task);
+      else
+        console.log('Unrecognized task type', task.parseType);
+
+      if (success)
+        ScraperTasks.remove({'payload.url': task.url});
+      else
+        console.log('WARNING', 'Task not successful', task);
+    } else {
+      Scraper.seed();
+    }
+
+    Meteor.setTimeout(Scraper.run, 2500);
   },
 
-  run_single: function(scraper) {
-    console.log("Running scraper", scraper.name);
-    $ = Scraper.fetch(scraper.url);
-    var results = [];
+  runBasic: function(task) {
+    var scraper = Scrapers.all[task.source];
+    var $ = ScraperUtil.fetch(task.url);
 
-    $(scraper.resultSelector).each(function(i, el) {
+    var results = $(scraper.resultSelector);
+
+    if (results.length == 0)
+      console.log('WARNING', 'No results for task', task);
+    
+    results.each(function(i, el) {
       var listingInfo = scraper.parseResult($, el);
       
       listingInfo = _.extend(listingInfo, {
@@ -37,42 +84,48 @@ Scraper = {
         scrapeTimestamp: Math.floor(Date.now() / 1000),
         price: Math.ceil(listingInfo.price),
         pricem2: Math.round(listingInfo.price / listingInfo.m2),
+        type: task.type,
       });
 
-      if((typeof listingInfo.detailsTimestamp === 'undefined') || force) {
-        $$ = Scraper.fetch(listingInfo.link);
-        listingInfoDetail = scraper.parseDetail($$);
-        listingInfoDetail = _.extend(listingInfoDetail, {
-          detailTimestamp: Math.floor(Date.now() / 1000),
-        });
-        listingInfo = _.extend(listingInfo, listingInfoDetail);
+      // Duplicate this task to scrape details if needed
+      if(typeof listingInfo.detailTimestamp === 'undefined') {
+        var detailTask = {
+          url:  listingInfo.url,
+          plz:  listingInfo.plz,
+          type: listingInfo.type,
+          source: task.source,
+          parseType: 'detail'
+        };
+
+        ScraperTasks.register(detailTask);
+        listingInfo.pending = true;
       }
 
-      results.push(listingInfo);
+      Listings.update({url: listingInfo.url}, listingInfo, {upsert: true});
+
     });
 
-    _.each(results, function(result) {
-      listing = Listings.update({link: result.link}, result, {upsert: true});
-    });
-
-    console.log("Scraped", results.length, "listings from willhaben.at");
+    return true;
   },
 
-  asyncFetch: function(url, callback) {
-    var options = {
-      headers: {
-        'User-Agent':      'Chrome',
-        'Accept':          'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'de-AT',
-        'Cache-Control':   'max-age=0'
-      }
-    };
+  runDetail: function(task) {
+    var scraper = Scrapers.all[task.source];
+    $$ = ScraperUtil.fetch(task.url);
+    listingInfoDetail = scraper.parseDetail($$);
+    listingInfoDetail = _.extend(listingInfoDetail, {
+      detailTimestamp:   Math.floor(Date.now() / 1000),
+      pending: false
+    });
 
-    request(url, options).pipe(iconv.decodeStream('ISO-8859-1')).collect(Meteor.bindEnvironment(function(e, body) {
-      callback(e, cheerio.load(body));
-    }));
+    listingInfo = Listings.findOne({url: task.url});
+    listtingInfo = _.extend(listingInfo, listingInfoDetail);
+    Listings.update({url: task.url}, listingInfo, {upsert: true});
+
+    return true;
   }
-
 };
 
-Scraper.fetch = Async.wrap(Scraper.asyncFetch);
+Meteor.startup(function() {
+  Scraper.seed();
+  Scraper.run();
+})

@@ -67,6 +67,13 @@ Template.listing.helpers({
   }
 })
 
+UI.registerHelper('simpleHumanTime', function(context, options) {
+  if(context)
+    return moment(context, 'X').format('DD.MM.YYYY HH:mm');
+  else
+    return '';
+});
+
 UI.registerHelper('humanTime', function(context, options) {
   if(context)
     return moment(context, 'X').format('[um] HH:mm [Uhr, am] DD.MM.YYYY');

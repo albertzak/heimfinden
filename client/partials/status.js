@@ -17,6 +17,28 @@ Template.status.helpers({
       sort: { timestamp: -1 }});
 
     return last && last.timestamp;
+  },
+
+  scraperTasks: function() {
+    return ScraperTasks.find({}, {
+      sort: { addedTimestamp: -1 },
+      limit: 10});
+  },
+
+  scraperTasksCount: function() {
+    return ScraperTasks.find({}).count();
+  },
+
+  listingsCount: function() {
+    return Listings.find().count();
+  },
+
+  hasScraperTasks: function() {
+    return (ScraperTasks.find({}).count() !== 0);
+  },
+
+  stringify: function(obj) {
+    return JSON.stringify(obj);
   }
 });
 

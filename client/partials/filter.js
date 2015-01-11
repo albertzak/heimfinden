@@ -15,10 +15,10 @@ Meteor.startup(function() {
   Session.setDefault('filter-pricem2', 12);
 
   Session.setDefault('filter-priceUpper', 1700);
-  Session.setDefault('filter-priceLower', 100);
+  Session.setDefault('filter-priceLower', 40);
 
-  Session.set('filter-m2Upper', 400);
-  Session.set('filter-m2Lower', 10);
+  Session.set('filter-m2Upper', 300);
+  Session.set('filter-m2Lower', 8);
 })
 
 Template.filterButton.rendered = function() {
@@ -43,7 +43,7 @@ Template.filterButton.rendered = function() {
       connect: true,
       margin: 100,
       range: {
-        'min': 200,
+        'min': 40,
         'max': 1700
       }
     }).on({
@@ -78,8 +78,8 @@ Template.filterButton.rendered = function() {
       connect: true,
       margin: 10,
       range: {
-        'min': 10,
-        'max': 400
+        'min': 80,
+        'max': 300
       }
     }).on({
       slide: function() {

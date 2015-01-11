@@ -1,8 +1,15 @@
 <template name="status">
     <span class="status navbar-text navbar-right">
       <a href="#" class="navbar-link" data-toggle="modal" data-target="#statusDetail">
-        {{lastText}}
-        <span data-livestamp="{{isoTime lastTimestamp}}"></span>
+        
+        {{#if hasScraperTasks}}
+          Lade noch <b>{{scraperTasksCount}} neue</b> Objekte...
+        {{else}}
+          <b>{{listingsCount}}</b> Objekte gefunden
+        {{/if}}
+
+        <!-- {{lastText}} -->
+        <!-- <span data-livestamp="{{isoTime lastTimestamp}}"></span> -->
       </a>
 
     </span>
@@ -19,17 +26,31 @@
             {{#each statuses}}
 
               <b>{{text}}</b>
-
               <abbr 
                 title="{{humanTime timestamp}}"
                 data-livestamp="{{isoTime timestamp}}"
                 data-toggle="tooltip"
                 data-placement="right">
               </abbr>
-
               <br>
 
             {{/each}}
+
+            <h3>
+              Scraper Tasks
+              <span class="label label-info">{{scraperTasksCount}}</span>
+            </h3>
+
+            {{#each scraperTasks}}
+
+              <span class="text-muted">{{simpleHumanTime addedTimestamp}}</span>
+              {{payload.parseType}}              
+              Suche <b>{{payload.type}}</b>
+              in <b>{{payload.plz}}</b>
+              auf <b>{{payload.source}}</b>
+              <br>
+
+            {{/each}}            
           
           </div>
           <div class="modal-footer">

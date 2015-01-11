@@ -7,7 +7,7 @@
           <ul class="list-inline">
             {{#each images}}
               <li>
-                <a href="{{../link}}" target="_blank">
+                <a href="{{../url}}" target="_blank">
                   <img src="{{this}}" />
                 </a>
               </li>
@@ -43,8 +43,14 @@
           <!-- Agency, Street, PLZ -->
           <h4 class="text-center agency">
             <abbr {{agencyAttr}}>{{agencyLabel}}</abbr>
-            {{street}}
+
             <span class="label label-default">{{plz}}</span>
+
+            {{street}}
+
+            {{#if pending}}
+              <span class="label label-info">Neu</span>
+            {{/if}}
           </h4>
 
           <!-- Source, Timestamp -->
@@ -59,7 +65,7 @@
             </abbr>
 
             auf
-            <a href="{{link}}" target="_blank" title="Öffnen in einem neuen Tab">
+            <a href="{{url}}" target="_blank" title="Öffnen in einem neuen Tab">
               {{scrapeSource}}
               <small class="glyphicon glyphicon-new-window"></small>
             </a>
@@ -79,7 +85,7 @@
 <!--         <strong class="plz">{{plz}}</strong>
         <p>{{title}}</p>
         <p>{{rooms}} Zimmer</p>
-        <a href="{{link}}" target="_blank">Link</a>
+        <a href="{{url}}" target="_blank">url</a>
         <p>Source: {{scrapeSource}}</p>
         <p>Result last scraped {{formatTime scrapeTimestamp}}</p>
         <p>Detail last scraped {{formatTime detailTimestamp}}</p>
@@ -93,3 +99,13 @@
   <div class="clearfix clear"></div>
   </section>
 </template>
+
+
+<template name="listings">
+  {{#each listings}}
+    <div class="row">
+      {{> listing}}
+    </div>
+  {{/each}}
+</template>
+
