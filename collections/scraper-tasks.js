@@ -7,7 +7,7 @@ ScraperTasks.register = function(payload) {
     })
   } else {
     ScraperTasks.update({
-      payload: payload
+      'payload.url': payload.url
     },{
       payload: payload,
       addedTimestamp: moment().format('X')

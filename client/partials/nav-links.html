@@ -1,0 +1,13 @@
+<template name="navLinks">
+  <li {{activeClass '/'}}>
+    <a href="{{pathFor 'nextListings'}}">Neue Ergebnisse</a>
+  </li>
+
+  <li {{activeClass '/nein'}}>
+    <a href="{{pathFor 'downvotedListings'}}">Nein-Liste</a>
+  </li>
+
+  <li {{activeClass '/ja'}}>
+    <a href="{{pathFor 'upvotedListings'}}">Ja-Liste</a>
+  </li>
+</template>

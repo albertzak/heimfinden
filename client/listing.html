@@ -1,8 +1,9 @@
 <template name="listing">
   <section class="listing">
     <div class="col-md-12">
+
+      <!-- photos row -->
       <div class="row">
-        <!-- photos row -->
         <div class="col-md-12 photos">
           <ul class="list-inline">
             {{#each images}}
@@ -17,13 +18,9 @@
       </div>
 
       <div class="row">
-        <!-- Left -->
-        <div class="col-md-2">
-
-        </div>
 
         <!-- Middle -->
-        <div class="col-md-8">
+        <div class="col-md-offset-4 col-md-4">
 
           <!-- Price, m2, Price/m2 -->
           <h1 class="text-center">
@@ -39,18 +36,29 @@
               {{pricem2}}<small>&euro;/m²</small>
             </span>
           </h1>
+        </div>
+      </div>
 
-          <!-- Agency, Street, PLZ -->
+      <div class="row">
+        <!-- Downvote -->
+        <div class="col-md-4 text-right">
+          <a href="#" class="vote downvote {{downvotedClass}}"><span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+        <div class="col-md-4 text-right">
           <h4 class="text-center agency">
             <abbr {{agencyAttr}}>{{agencyLabel}}</abbr>
             <span class="label label-default">{{type}}</span>
+            {{#if rooms}}
+              {{rooms}} Zimmer
+            {{/if}}
             <span class="label label-default">{{plz}}</span>
-
-            {{street}}
-
             {{#if pending}}
               <span class="label label-info">Neu</span>
             {{/if}}
+          </h4>
+          <h4 class="text-center">
+            {{street}}
           </h4>
 
           <!-- Source, Timestamp -->
@@ -66,40 +74,22 @@
 
             auf
             <a href="{{url}}" target="_blank" title="Öffnen in einem neuen Tab">
-              {{scrapeSource}}
+              {{source}}
               <small class="glyphicon glyphicon-new-window"></small>
             </a>
           </p>
-
         </div>
 
-        <!-- Right -->
-        <div class="col-md-2">
-          
-
+        <!-- Upvote -->
+        <div class="col-md-4 text-left">
+            <a href="#" class="vote upvote {{upvotedClass}}"><span class="glyphicon glyphicon-heart"></span></a>
         </div>
       </div>
     </div>
 
-
-<!--         <strong class="plz">{{plz}}</strong>
-        <p>{{title}}</p>
-        <p>{{rooms}} Zimmer</p>
-        <a href="{{url}}" target="_blank">url</a>
-        <p>Source: {{scrapeSource}}</p>
-        <p>Result last scraped {{formatTime scrapeTimestamp}}</p>
-        <p>Detail last scraped {{formatTime detailTimestamp}}</p>
-        <p>Source last updated {{formatTime sourceTimestamp}}</p>
-        <p>{{{desc}}}</p>
-        <p>{{{street}}}</p>
-        <p>{{{agency}}}</p>
-      </div>
-    </div>
- -->
   <div class="clearfix clear"></div>
   </section>
 </template>
-
 
 <template name="listings">
   {{#each listings}}

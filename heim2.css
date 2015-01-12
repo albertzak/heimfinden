@@ -6,6 +6,10 @@ html, body {
   height: 100%;
 }
 
+.profile-picture {
+  border-radius: 100%;
+}
+
 .listing {
   margin-bottom: 47px;
   margin-top: 47px;
@@ -64,4 +68,53 @@ html, body {
 .agency .tooltip-inner {
   text-align: left;
   font-family: 'Courier', monospace;
+}
+
+.vote {
+  font-size: 60px;
+  padding: 50px;
+  transition: all .3s ease;
+}
+
+.text-right .vote {
+  padding-right: 20px;
+}
+
+.text-left .vote {
+  padding-left: 20px;
+}
+
+
+a.upvote, a.upvote:link, a.upvote:visited {
+  color: #e599a4;
+}
+
+a.upvote:hover {
+  color: #f3455e;
+}
+
+a.upvote:active, a.upvote.voted {
+  color: #cd081e;
+}
+
+
+a.downvote, a.downvote:link, a.downvote:visited {
+  color: #CBCBCB;
+}
+
+a.downvote:hover {
+  color: #9E9E9E;
+}
+
+a.downvote:active, a.downvote.voted {
+  color: #242424;
+}
+
+
+.downvote {
+
+}
+
+.votable {
+
 }

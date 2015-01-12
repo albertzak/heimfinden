@@ -1,24 +1,34 @@
 <template name="navbar">
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="row">
-                <div class="navbar-header page-scroll">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand page-scroll" href="#">Heimfinden<small>²</small></a>
-                </div>
-
-                {{> filterButton}}
-                {{> status}}
-
-            </div>
-            <div class="row">
-                {{> filterPanel}}
-            </div>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="row">
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand page-scroll" href="/">Heimfinden²</a>
         </div>
-    </nav>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+
+            {{> navLinks}}
+
+          </ul>
+
+          <div class="navbar-right">
+            {{> filterButton}}
+          </div>
+        </div>
+        
+
+      </div>
+      <div class="row">
+        {{> filterPanel}}
+      </div>
+    </div>
+  </nav>
 </template>

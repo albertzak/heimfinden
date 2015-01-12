@@ -3,7 +3,7 @@ Meteor.startup(function () {
     'willhaben': {
       baseUrl: 'http://www.willhaben.at',
 
-      basicTargets: function() {
+      resultsTasks: function() {
 
         var plzAreaIds = {
           1010: 117223,
@@ -33,11 +33,11 @@ Meteor.startup(function () {
           ].join('');
         };
 
-        targets = [];
+        tasks = [];
 
         _.each(typeSlugs, function(typeSlug, type) {
           _.each(plzAreaIds, function(areaId, plz) {
-            targets.push({
+            tasks.push({
               url: makeUrl(typeSlug, areaId),
               plz: plz,
               type: type,
@@ -45,30 +45,39 @@ Meteor.startup(function () {
           });  
         })
 
-        return targets;
+        return tasks;
       }(),
 
-
-
       resultSelector: '.media',
-      expectedResultsCount: 25,
       parseResult: function($, el) {
         return {
-          title:  Sanitize.title($(el).find('.media-body a').text()),
-          plz:    parseInt($('.media-body .bot-1').text().match(/\d{4}/)),
-          m2:     Sanitize.number($(el).find('.info-2 .desc-left').text()),
-          price:  Sanitize.number($(el).find('.info-2 .pull-right').text()),
-          agency: $(el).find('.media-body .bot-1').html().split('<br>')[1].trim(),
-          image:  $(el).find('.img-link img').attr('src'),
-          url:   'http://www.willhaben.at' + $(el).find('.img-link').attr('href')
+          url:   'http://www.willhaben.at' + $(el).find('.img-link').attr('href'),
+          detail: {
+            agency: $(el).find('.media-body .bot-1').html().split('<br>')[1].trim(),
+          }
         };
       },
 
       parseDetail: function($$) {
         return {
+          title:  Sanitize.title($$('head title').text()),
+          price:  Sanitize.number($$('#priceBox-price').text()),
+          m2:     function() {
+            return Sanitize.number($$('h1.header .mg-offset-1').text()) ||
+            Sanitize.number($$('span:contains("Grundfläche")').last().siblings('div').text());
+          }(),
           street: $$('.box-body.bg-blue dd').html().split('<br>')[0],
           rooms:  parseInt($$('.subHeading .mg-offset-2').text().match(/\d+/)),
-          images: Util.findBetween($$('.galleria-container-wrapper script').text(), '"image":"', '","'),
+          images: function() {
+            if ($$('.galleria.off img.sg-image').length) {
+              return [$$('.galleria.off img.sg-image').attr('src')];
+            } else {
+              return Util.findBetween(
+                $$('.galleria-container-wrapper script').text(),
+                '"image":"',
+                '","');
+            }
+          }(),
           sourceTimestamp: function() {
             date = $$('#advert-info-dateTime').html();
             date = date.trim().replace('Zuletzt geändert: ', '');
