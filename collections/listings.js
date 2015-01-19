@@ -26,7 +26,6 @@ Meteor.methods({
           $inc: {votes: -1}
         });
       }
-      console.log('Downvoting', listing);
       if (_.include(listing.downvoters, user._id)) throw('Already downvoted');
       Listings.update(listing._id, {
         $addToSet: {downvoters: user._id},
@@ -40,7 +39,6 @@ Meteor.methods({
           $inc: {votes: +1}
         });
       }
-      console.log('Upvoting', listing);
       if (_.include(listing.upvoters, user._id)) throw('Already upvoted');
       Listings.update(listing._id, {
         $addToSet: {upvoters: user._id},

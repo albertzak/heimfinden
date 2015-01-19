@@ -25,3 +25,4 @@ accounts-facebook
 iron:router
 sacha:spin
 multiply:iron-router-progress
+tmeasday:publish-counts

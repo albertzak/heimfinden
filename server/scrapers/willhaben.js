@@ -66,7 +66,9 @@ Meteor.startup(function () {
             return Sanitize.number($$('h1.header .mg-offset-1').text()) ||
             Sanitize.number($$('span:contains("Grundfläche")').last().siblings('div').text());
           }(),
-          street: $$('.box-body.bg-blue dd').html().split('<br>')[0],
+          street: function() {
+            return $$('.box-body.bg-blue dd') && $$('.box-body.bg-blue dd').html().split('<br>')[0];
+          }(),
           rooms:  parseInt($$('.subHeading .mg-offset-2').text().match(/\d+/)),
           images: function() {
             if ($$('.galleria.off img.sg-image').length) {

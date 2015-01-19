@@ -19,6 +19,10 @@ html, body {
   margin-top: 0;
 }
 
+.tp {
+  margin-top: 260px;
+}
+
 .sp {
   margin-right: 30px;
 }

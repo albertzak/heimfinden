@@ -35,7 +35,7 @@ Scrapers = {
 };
 
 Scraper = {
-  paused: true,
+  paused: false,
 
   pause: function() {
     console.log("INFO", "Scraper paused");
@@ -48,18 +48,27 @@ Scraper = {
   },
 
   seed: function() {
-    console.log("INFO", "Seeding scraper tasks");
-    ScraperTasks.register(Scrapers.resultsTasks);
+    try {
+      ScraperTasks.register(Scrapers.resultsTasks);
+    } catch(e) {
+      console.log("ERROR", "Seeding", e);
+    }
+
+    Meteor.setTimeout(Scraper.seed, 1000*60*5);
   },
 
   run: function() {
-    if( ! Scraper.paused) {
-      var task = ScraperTasks.getRandomTask();
+    try {
+      if( ! Scraper.paused) {
+        var task = ScraperTasks.getRandomTask();
 
-      if(task)
-        Scraper.runTask(task);
-      else
-        Scraper.seed();
+        if(task)
+          Scraper.runTask(task);
+        else
+          Scraper.seed();
+      }
+    } catch(e) {
+      console.log("ERROR", "Exception in Scraper", e.stack);
     }
 
     Meteor.setTimeout(Scraper.run, 2500);
@@ -67,6 +76,9 @@ Scraper = {
 
   runTask: function(task) {
     task = task.payload;
+
+    if(ScraperTasksBlacklist.match(task))
+      ScraperTasks.remove({'payload.url': task.url});
 
     if(task.parseType === 'results')
       success = Scraper.scrapeResults(task);
@@ -119,18 +131,30 @@ Scraper = {
       price:   Math.ceil(parsedDetail.price),
       pricem2: Math.round(parsedDetail.price / parsedDetail.m2),
       scrapedTimestamp:   Math.floor(Date.now() / 1000),
+      votes:      0,
+      upvoters:   [],
+      downvoters: []
     });
 
-    console.log("INFO", parsedDetail);
+    if(Sanitize.validateDetail(parsedDetail)) {
+      var existingListing = Listings.findOne({url: task.url});
 
-    var existingListing = Listings.findOne({url: task.url});
+      if (existingListing) {
+        var votes      = existingListing.votes;
+        var upvoters   = existingListing.upvoters;
+        var downvoters = existingListing.downvoters;
 
-    if (existingListing) {
-      console.log("INFO", "Updating existing listing");
-      Listings.update({url: task.url}, _.extend(existingListing, parsedDetail));
+        Listings.update({url: task.url}, _.extend(_.extend(existingListing, parsedDetail), {
+          votes:      votes,
+          upvoters:   upvoters,
+          downvoters: downvoters
+        }));
+      } else {
+        Listings.insert(parsedDetail);
+      }
     } else {
-      console.log("INFO", "Inserting new listing");
-      Listings.insert(parsedDetail);
+      console.log('INFO', 'Blacklisting task', task);
+      ScraperTasksBlacklist.register(task);
     }
 
     return true;

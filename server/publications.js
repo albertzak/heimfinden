@@ -1,4 +1,6 @@
 Meteor.publish('nextListings', function() {
+  Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}));
+
   return Listings.find({
     upvoters:   {$ne: this.userId},
     downvoters: {$ne: this.userId},
