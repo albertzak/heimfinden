@@ -56,10 +56,10 @@ Meteor.publish('scraperTasks', function() {
 
 Meteor.publish('scraperTasksBlacklist', function() {
   Counts.publish(this, 'scraperTasksBlacklistCount', ScraperTasksBlacklist.find({}));
-  Counts.publish(this, 'scraperTasksBlacklistAddedTodayCount', ScraperTasks.find({
+  Counts.publish(this, 'scraperTasksBlacklistAddedTodayCount', ScraperTasksBlacklist.find({
     addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
   }));
-  Counts.publish(this, 'scraperTasksMatchedTodayCount', ScraperTasks.find({
+  Counts.publish(this, 'scraperTasksMatchedTodayCount', ScraperTasksBlacklist.find({
     lastMatchTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
   }));
 

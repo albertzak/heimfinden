@@ -77,6 +77,7 @@ Scraper = {
   },
 
   runTask: function(task) {
+    ScraperStatus.set('Running');
     task = task.payload;
 
     if(ScraperTasksBlacklist.match(task))
