@@ -1,6 +1,4 @@
 Meteor.publish('nextListings', function() {
-  Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}));
-
   return Listings.find({
     upvoters:   {$ne: this.userId},
     downvoters: {$ne: this.userId},
@@ -29,10 +27,44 @@ Meteor.publish('votedListings', function(voteDirection) {
   });
 });
 
-
 Meteor.publish('singleListing', function(_id) {
   return Listings.find(_id);
 });
+
+Meteor.publish('scraperStatus', function() {
+  return ScraperStatus.find({});
+});
+
 Meteor.publish('logger', function() {
   return Logger.find({}, { sort: { timestamp: -1 }, limit: 10 });
 })
+
+Meteor.publish('scraperTasks', function() {
+  Counts.publish(this, 'listingsAddedTodayCount', Listings.find({
+    scrapedTimestamp: { $gt: parseInt(moment().subtract(24, 'hours').format('X')) }
+  }));
+  Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}));
+  Counts.publish(this, 'scraperTasksAddedTodayCount', ScraperTasks.find({
+    addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X')) }
+  }));
+
+  return ScraperTasks.find({}, {
+    sort: { addedTimestamp: -1 },
+    limit: 5
+  });
+});
+
+Meteor.publish('scraperTasksBlacklist', function() {
+  Counts.publish(this, 'scraperTasksBlacklistCount', ScraperTasksBlacklist.find({}));
+  Counts.publish(this, 'scraperTasksBlacklistAddedTodayCount', ScraperTasks.find({
+    addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
+  }));
+  Counts.publish(this, 'scraperTasksMatchedTodayCount', ScraperTasks.find({
+    lastMatchTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
+  }));
+
+  return ScraperTasksBlacklist.find({}, {
+    sort: { addedTimestamp: -1 },
+    limit: 5
+  });
+});

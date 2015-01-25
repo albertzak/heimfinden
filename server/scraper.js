@@ -35,23 +35,21 @@ Scrapers = {
 };
 
 Scraper = {
-  paused: false,
-
   pause: function() {
-    console.log("INFO", "Scraper paused");
-    Scraper.paused = true;
+    ScraperStatus.set("Paused", { paused: true });
   },
 
   unpause: function() {
-    console.log("INFO", "Scraper running");
-    Scraper.paused = false;
+    ScraperStatus.set("Running", { paused: false });
   },
 
   seed: function() {
+    ScraperStatus.set("Seeding");
+
     try {
       ScraperTasks.register(Scrapers.resultsTasks);
     } catch(e) {
-      console.log("ERROR", "Seeding", e);
+      Logger.log('danger', 'Exception while Seeding', e);
     }
 
     Meteor.setTimeout(Scraper.seed, 1000*60*5);
@@ -59,16 +57,20 @@ Scraper = {
 
   run: function() {
     try {
-      if( ! Scraper.paused) {
+      if( ! ScraperStatus.isPaused()) {
         var task = ScraperTasks.getRandomTask();
 
         if(task)
-          Scraper.runTask(task);
+          try {
+            Scraper.runTask(task);
+          } catch(e) {
+            Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n' + e.stack);
+          }
         else
           Scraper.seed();
       }
     } catch(e) {
-      console.log("ERROR", "Exception in Scraper", e.stack);
+      Logger.log('danger', 'Exception in Scraper Run', e.stack);
     }
 
     Meteor.setTimeout(Scraper.run, 2500);
@@ -85,12 +87,12 @@ Scraper = {
     else if (task.parseType === 'detail')
       success = Scraper.scrapeDetail(task);
     else
-      console.log('ERROR', 'Unrecognized task type', task.parseType);
+      Logger.log('warning', 'Unrecognized task type', task.parseType);
 
     if (success)
       ScraperTasks.remove({'payload.url': task.url});
     else
-      console.log('WARNING', 'Task not successful', task);
+      Logger.log('warning', 'Task not successful', task);
   },
 
   scrapeResults: function(task) {
@@ -100,7 +102,7 @@ Scraper = {
     var results = $(scraper.resultSelector);
 
     if (results.length == 0)
-      console.log('WARNING', 'No results for task', task);
+      Logger.log('warning', 'No results for task', task);
 
     results.each(function(i, el) {
       var parsedResult = scraper.parseResult($, el);
@@ -158,7 +160,6 @@ Scraper = {
         Listings.insert(parsedDetail);
       }
     } else {
-      console.log('INFO', 'Blacklisting task', task);
       ScraperTasksBlacklist.register(task);
     }
 
@@ -169,4 +170,5 @@ Scraper = {
 Meteor.startup(function() {
   Scraper.seed();
   Scraper.run();
+  Scraper.unpause();
 })

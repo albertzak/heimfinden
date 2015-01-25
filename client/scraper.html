@@ -1,0 +1,64 @@
+<template name="scraper">
+  <h3>
+    Scraper
+    <span class="badge badge-info">{{ scraperStatus.status }}</span>
+  </h3>
+
+  <button class="btn btn-xs btn-danger pause">Pause</button>
+  <button class="btn btn-xs btn-success unpause">Continue</button>
+
+  <h4>
+    Tasks
+    <span class="badge badge-info">{{ getPublishedCount 'scraperTasksCount' }}</span>
+  </h4>
+
+  <p>
+    Heute: <b>{{ getPublishedCount 'scraperTasksAddedTodayCount' }}</b> neue Tasks, 
+    <b>{{ getPublishedCount 'listingsAddedTodayCount' }}</b> neue Listings
+  </p>
+
+  <ol>
+    {{#each scraperTasks }}
+      <li>{{> scraperTask}}</li>
+    {{/each}}
+  </ol>
+
+  <h4>
+    Blacklist
+    <span class="badge badge-info">{{ getPublishedCount 'scraperTasksBlacklistCount' }}</span>
+  </h4>
+
+  <p>
+    Heute: 
+    <b>{{ getPublishedCount 'scraperTasksBlacklistAddedTodayCount' }}</b> Neue Einträge,
+    <b>{{ getPublishedCount 'scraperTasksMatchedTodayCount' }}</b> Matches
+  </p>
+
+  <ol>
+    {{#each scraperTasksBlacklist }}
+      <li>{{> scraperTask}}</li>
+    {{/each}}
+  </ol>
+
+
+  <h4>Logger</h4>
+  <btn class="btn btn-xs btn-info clear-logs">Clear</btn><br>
+
+  {{#each logs}}
+    <span class="label label-{{type}}">!</span>
+    {{ simpleHumanTime timestamp }}
+    {{ text }}<br>
+    <p><pre>{{ payload }}</pre></p>
+    <br>
+  {{/each}}
+</template>
+
+<template name="scraperTask">
+  {{ simpleHumanTime addedTimestamp }}
+  {{ payload.type }} in {{ payload.plz }}
+  auf
+  <a href="{{payload.url}}" target="_blank" title="Öffnen in einem neuen Tab">
+    {{payload.source}}
+    <small class="glyphicon glyphicon-new-window"></small>
+  </a>
+</template>
