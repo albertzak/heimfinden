@@ -1,18 +1,43 @@
+ScraperStatus = new Meteor.Collection('scraperStatus');
 ScraperTasks = new Meteor.Collection('scraperTasks');
 ScraperTasksBlacklist = new Meteor.Collection('scraperTasksBlacklist');
 
+ScraperStatus.set = function(status, payload) {
+  if (typeof payload === 'undefined') { payload = {}; }
+  payload = _.extend(payload, { status: status });
+
+  if (ScraperStatus.find().count() != 1) {
+    ScraperStatus.remove({});
+    return ScraperStatus.insert(payload);
+  }
+
+  oldPayload = ScraperStatus.get();
+  payload = _.extend(oldPayload, { status: status });
+  return ScraperStatus.update({}, payload);
+}
+
+ScraperStatus.get = function() {
+  if (ScraperStatus.find().count() == 0) {
+    ScraperStatus.insert({ status: 'Initializing', paused: false });
+  }
+
+  return ScraperStatus.findOne();
+}
+
+ScraperStatus.isPaused = function() {
+  return ScraperStatus.get().paused || false;
+}
+
 ScraperTasks.register = function(payload) {
-  if(payload instanceof Array) {
+  if (payload instanceof Array) {
     _.each(payload, function(task) {
       ScraperTasks.register(task);
     })
   } else {
-    ScraperTasks.update({
-      'payload.url': payload.url
-    },{
+    ScraperTasks.insert({
       payload: payload,
-      addedTimestamp: moment().format('X')
-    },{upsert: true});
+      addedTimestamp: parseInt(moment().format('X'))
+    });
   }
 }
 
@@ -24,18 +49,26 @@ ScraperTasks.getRandomTask = function() {
 
 
 ScraperTasksBlacklist.register = function(payload) {
-  if(payload instanceof Array) {
+  if (payload instanceof Array) {
     _.each(payload, function(task) {
       ScraperTasksBlacklist.register(task);
     })
   } else {
-    ScraperTasksBlacklist.update({
-      'payload.url': payload.url
-    },{
-      payload: payload,
-      addedTimestamp: moment().format('X'),
-      lastMatchTimestamp: moment().format('X')
-    },{upsert: true});
+    if(ScraperTasksBlacklist.findOne({ 'payload.url': payload.url })) {
+
+      ScraperTasksBlacklist.update({
+        'payload.url': payload.url
+      }, {
+        payload: payload,
+        lastMatchTimestamp: parseInt(moment().format('X')),
+      });
+
+    } else {
+      ScraperTasksBlacklist.insert({
+        payload: payload,
+        addedTimestamp: parseInt(moment().format('X'))
+      });
+    }
   }
 }
 
@@ -48,7 +81,7 @@ ScraperTasksBlacklist.match = function(payload) {
     ScraperTasksBlacklist.update({
       'payload.url': payload.url
     },{
-      lastMatchTimestamp: moment().format('X')
+      lastMatchTimestamp: parseInt(moment().format('X'))
     });
 
     return true;
