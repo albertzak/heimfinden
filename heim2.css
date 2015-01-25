@@ -48,6 +48,10 @@ html, body {
 .filter-wrapper {
 }
 
+.plzwrapper {
+  width: 240px;
+}
+
 .filter-form {
   z-index: 5;
   width: 245px;

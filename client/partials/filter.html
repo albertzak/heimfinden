@@ -24,9 +24,11 @@
 
         <div class="col-md-3">
           <h4 class="text-muted">Bezirk</h4>
-          {{#each plz}}
-            <span {{plzAttr this}}>{{this}}</span>
-          {{/each}}
+          <div class="plzwrapper">
+            {{#each plz}}
+              <span {{plzAttr this}}>{{this}}</span>
+            {{/each}}
+          </div>
         </div>
 
         <div class="col-md-3">
