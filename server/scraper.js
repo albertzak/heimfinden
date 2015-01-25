@@ -122,6 +122,11 @@ Scraper = {
     var scraper = Scrapers.all[task.source];
     $$ = ScraperUtil.fetch(task.url);
 
+    if (scraper.isNoLongerListed($$)) {
+      ScraperTasksBlacklist.register(task);
+      return true;
+    }
+
     parsedDetail = scraper.parseDetail($$);
     parsedDetail = _.extend(_.extend(parsedDetail, task.detail), {
       plz:     task.plz,

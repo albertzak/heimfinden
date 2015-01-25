@@ -58,6 +58,10 @@ Meteor.startup(function () {
         };
       },
 
+      isNoLongerListed: function($$) {
+        return ($$('body').text().indexOf('Diese Anzeige ist nicht mehr verfügbar') > 0)
+      },
+
       parseDetail: function($$) {
         return {
           title:  Sanitize.title($$('head title').text()),
@@ -67,7 +71,8 @@ Meteor.startup(function () {
             Sanitize.number($$('span:contains("Grundfläche")').last().siblings('div').text());
           }(),
           street: function() {
-            return $$('.box-body.bg-blue dd') && $$('.box-body.bg-blue dd').html().split('<br>')[0];
+            if ($$('.box-body.bg-blue dd').length > 0)
+              return $$('.box-body.bg-blue dd').html().split('<br>')[0];
           }(),
           rooms:  parseInt($$('.subHeading .mg-offset-2').text().match(/\d+/)),
           images: function() {
