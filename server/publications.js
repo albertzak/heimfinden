@@ -33,3 +33,6 @@ Meteor.publish('votedListings', function(voteDirection) {
 Meteor.publish('singleListing', function(_id) {
   return Listings.find(_id);
 });
+Meteor.publish('logger', function() {
+  return Logger.find({}, { sort: { timestamp: -1 }, limit: 10 });
+})
