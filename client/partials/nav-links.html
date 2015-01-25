@@ -1,17 +1,45 @@
 <template name="navLinks">
   <li {{activeClass '/'}}>
-    <a href="{{pathFor 'nextListings'}}">Neue Ergebnisse</a>
+    <a href="{{pathFor 'nextListings'}}">
+      <i class="glyphicon glyphicon-certificate"></i> Neue Ergebnisse
+      {{#if showCount 'nextListingsCount' }}
+        <span class="badge">{{ showCount 'nextListingsCount' }}</span>
+      {{/if}}
+    </a>
   </li>
 
   <li {{activeClass '/nein'}}>
-    <a href="{{pathFor 'downvotedListings'}}">Nein-Liste</a>
+    <a href="{{pathFor 'downvotedListings'}}">
+      <i class="glyphicon glyphicon-remove"></i> Nein-Liste
+      {{#if showCount 'downvotedListingsCount' }}
+        <span class="badge">{{ showCount 'downvotedListingsCount' }}</span>
+      {{/if}}
+    </a>
   </li>
 
   <li {{activeClass '/ja'}}>
-    <a href="{{pathFor 'upvotedListings'}}">Ja-Liste</a>
+    <a href="{{pathFor 'upvotedListings'}}">
+      <i class="glyphicon glyphicon-heart"></i> Ja-Liste
+      {{#if showCount 'upvotedListingsCount' }}
+        <span class="badge">{{ showCount 'upvotedListingsCount' }}</span>
+      {{/if}}
+    </a>
+  </li>
+
+  <li {{activeClass '/freunde'}}>
+    <a href="{{pathFor 'friends'}}">
+      <i class="glyphicon glyphicon-user"></i>
+      Freunde
+    </a>
   </li>
 
   <li {{activeClass '/scraper'}}>
-    <a href="{{pathFor 'scraper'}}">Scraper</a>
+    <a href="{{pathFor 'scraper'}}">
+      <i class="glyphicon glyphicon-signal"></i>
+      Scraper
+      {{#if showCount 'loggerCount' }}
+        <span class="badge">{{ showCount 'loggerCount' }}</span>
+      {{/if}}
+    </a>
   </li>
 </template>

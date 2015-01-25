@@ -1,24 +1,17 @@
 Meteor.startup(function() {
-  Session.setDefault('filter-plz', {
-    1010: 1,
-    1030: 1,
-    1040: 1,
-    1060: 1,
-    1070: 1,
-    1080: 1,
-    1090: 1,
-    1170: 1,
-    1180: 1,
-    1190: 1
-  });
 
-  Session.setDefault('filter-pricem2', 12);
+  Session.setDefault('filter-plz', _.reduce(Sanitize.limits.plz, function(obj, plz) {
+    obj[plz] = 1;
+    return obj;
+  }, {}));
 
-  Session.setDefault('filter-priceUpper', 1700);
-  Session.setDefault('filter-priceLower', 40);
+  Session.setDefault('filter-pricem2', Sanitize.limits.maxPricem2);
 
-  Session.set('filter-m2Upper', 300);
-  Session.set('filter-m2Lower', 8);
+  Session.setDefault('filter-priceUpper', Sanitize.limits.maxPrice);
+  Session.setDefault('filter-priceLower', Sanitize.limits.minPrice);
+
+  Session.set('filter-m2Upper', Sanitize.limits.maxm2);
+  Session.set('filter-m2Lower', Sanitize.limits.minm2);
 })
 
 Template.filterButton.rendered = function() {
@@ -43,8 +36,8 @@ Template.filterButton.rendered = function() {
       connect: true,
       margin: 100,
       range: {
-        'min': 40,
-        'max': 1700
+        'min': Sanitize.limits.minPrice,
+        'max': Sanitize.limits.maxPrice
       }
     }).on({
       slide: function() {
@@ -60,8 +53,8 @@ Template.filterButton.rendered = function() {
       step: 1,
       connect: 'lower',
       range: {
-        'min': 7,
-        'max': 25
+        'min': Sanitize.limits.minPricem2,
+        'max': Sanitize.limits.maxPricem2
       }
     }).on({
       slide: function() {
@@ -78,8 +71,8 @@ Template.filterButton.rendered = function() {
       connect: true,
       margin: 10,
       range: {
-        'min': 80,
-        'max': 300
+        'min': Sanitize.limits.minm2,
+        'max': Sanitize.limits.maxm2
       }
     }).on({
       slide: function() {
@@ -91,7 +84,7 @@ Template.filterButton.rendered = function() {
 
 Template.filterPanel.helpers({
   plz: function() {
-    return [1010, 1030, 1040, 1060, 1070, 1080, 1090, 1170, 1180, 1190];
+    return Sanitize.limits.plz;
   },
 
   plzAttr: function(plz) {

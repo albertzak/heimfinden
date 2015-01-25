@@ -20,9 +20,9 @@ mrt:moment-timezone
 copleykj:livestamp
 timmyg:meteor-nouislider
 accounts-base
-accounts-ui
 accounts-facebook
 iron:router
 sacha:spin
 multiply:iron-router-progress
 tmeasday:publish-counts
+mrt:accounts-ui-bootstrap-3

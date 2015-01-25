@@ -24,6 +24,15 @@ UI.registerHelper('activeClass', function(context, options) {
     return {class: 'active'};
 });
 
+UI.registerHelper('showCount', function(context, options) {
+  var counts = Counts.get(context);
+
+  if (counts > 0)
+    return counts;
+  else
+    return false;
+});
+
 UI.registerHelper('profilePicture', function(context, options) {
   if(context && context.services && context.services.facebook && context.services.facebook.id) {
     return 'http://graph.facebook.com/'

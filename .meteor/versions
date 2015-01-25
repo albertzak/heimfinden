@@ -1,8 +1,6 @@
 accounts-base@1.1.3
 accounts-facebook@1.0.3
 accounts-oauth@1.1.3
-accounts-ui@1.1.4
-accounts-ui-unstyled@1.1.5
 application-configuration@1.0.4
 autoupdate@1.1.4
 base64@1.0.2
@@ -21,6 +19,7 @@ facebook@1.1.3
 fastclick@1.0.2
 follower-livedata@1.0.3
 geojson-utils@1.0.2
+handlebars@1.0.2
 html-tools@1.0.3
 htmljs@1.0.3
 http@1.0.9
@@ -51,6 +50,7 @@ minimongo@1.0.6
 mizzao:bootstrap-3@3.3.1_1
 mobile-status-bar@1.0.2
 mongo@1.0.11
+mrt:accounts-ui-bootstrap-3@0.3.3
 mrt:cheerio@0.3.2
 mrt:moment@2.8.1
 mrt:moment-timezone@0.2.1
@@ -71,6 +71,7 @@ service-configuration@1.0.3
 session@1.0.5
 spacebars@1.0.4
 spacebars-compiler@1.0.4
+stylus@1.0.6
 templating@1.0.10
 timmyg:meteor-nouislider@0.0.0
 tmeasday:publish-counts@0.3.4

@@ -1,8 +1,22 @@
-Meteor.publish('nextListings', function() {
-  return Listings.find({
+Meteor.publish(null, function() {
+  Counts.publish(this, 'nextListingsCount', Listings.find({
     upvoters:   {$ne: this.userId},
     downvoters: {$ne: this.userId},
-  }, {
+  }));
+
+  Counts.publish(this, 'upvotedListingsCount',   Listings.find({ upvoters: this.userId}));
+  Counts.publish(this, 'downvotedListingsCount', Listings.find({ downvoters: this.userId}));
+
+  Counts.publish(this, 'loggerCount', Logger.find({}));
+});
+
+Meteor.publish('nextListings', function() {
+  var selector = {
+    upvoters:   {$ne: this.userId},
+    downvoters: {$ne: this.userId},
+  };
+
+  return Listings.find(selector, {
     sort: {sourceTimestamp: 1},
     limit: 5
   });
@@ -31,6 +45,10 @@ Meteor.publish('singleListing', function(_id) {
   return Listings.find(_id);
 });
 
+Meteor.publish('friendsListings', function() {
+  return Listings.find({}, { sort: { sourceTimestamp: 1 }});
+});
+
 Meteor.publish('scraperStatus', function() {
   return ScraperStatus.find({});
 });
@@ -42,11 +60,11 @@ Meteor.publish('logger', function() {
 Meteor.publish('scraperTasks', function() {
   Counts.publish(this, 'listingsAddedTodayCount', Listings.find({
     scrapedTimestamp: { $gt: parseInt(moment().subtract(24, 'hours').format('X')) }
-  }));
-  Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}));
+  }), { noReady: true });
+  Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}), { noReady: true });
   Counts.publish(this, 'scraperTasksAddedTodayCount', ScraperTasks.find({
     addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X')) }
-  }));
+  }), { noReady: true });
 
   return ScraperTasks.find({}, {
     sort: { addedTimestamp: -1 },
@@ -55,13 +73,13 @@ Meteor.publish('scraperTasks', function() {
 });
 
 Meteor.publish('scraperTasksBlacklist', function() {
-  Counts.publish(this, 'scraperTasksBlacklistCount', ScraperTasksBlacklist.find({}));
+  Counts.publish(this, 'scraperTasksBlacklistCount', ScraperTasksBlacklist.find({}), { noReady: true });
   Counts.publish(this, 'scraperTasksBlacklistAddedTodayCount', ScraperTasksBlacklist.find({
     addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
-  }));
+  }), { noReady: true });
   Counts.publish(this, 'scraperTasksMatchedTodayCount', ScraperTasksBlacklist.find({
     lastMatchTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
-  }));
+  }), { noReady: true });
 
   return ScraperTasksBlacklist.find({}, {
     sort: { addedTimestamp: -1 },
