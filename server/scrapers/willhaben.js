@@ -58,8 +58,8 @@ Meteor.startup(function () {
         };
       },
 
-      isNoLongerListed: function($$) {
-        return ($$('body').text().indexOf('Diese Anzeige ist nicht mehr verfügbar') > 0)
+      isNoLongerListed: function($) {
+        return ($('body').text().indexOf('Neue passende Anzeigen zu Ihrer Suche') > 0)
       },
 
       parseDetail: function($$) {
