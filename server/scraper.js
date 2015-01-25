@@ -64,7 +64,7 @@ Scraper = {
           try {
             Scraper.runTask(task);
           } catch(e) {
-            Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n' + e.stack);
+            Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
           }
         else
           Scraper.seed();
