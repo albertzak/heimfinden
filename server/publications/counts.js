@@ -2,12 +2,15 @@ Meteor.publish('counts', function(selector) {
   if (typeof selector === 'undefined')
     selector = {};
 
-  var l = Listings.find(_.extend(selector, {
+  Counts.publish(this, 'nextListingsCount', Listings.find(_.extend(selector, {
     upvoters:   {$ne: this.userId},
     downvoters: {$ne: this.userId},
-  }));
+  })), { noReady: true });
 
-  Counts.publish(this, 'nextListingsCount', l, { noReady: true });
+  Counts.publish(this, 'nextListingsUnfilteredCount', Listings.find({
+    upvoters:   {$ne: this.userId},
+    downvoters: {$ne: this.userId},
+  }), { noReady: true });
 
   Counts.publish(this, 'upvotedListingsCount',   Listings.find(_.extend(selector, { upvoters:   this.userId})), { noReady: true });
 

@@ -4,9 +4,9 @@ if(Meteor.isClient) {
   Listings.defaultSelector = function() {
     return {
       plz:     {$in: Util.objectToArray(Session.get('filter-plz'))},
-      price:   {$lt: Session.get('filter-priceUpper'), $gt: Session.get('filter-priceLower')},
-      pricem2: {$lt: Session.get('filter-pricem2')},
-      m2:      {$lt: Session.get('filter-m2Upper'), $gt: Session.get('filter-m2Lower')}    
+      price:   {$lte: Session.get('filter-priceUpper'), $gte: Session.get('filter-priceLower')},
+      pricem2: {$lte: Session.get('filter-pricem2')},
+      m2:      {$lte: Session.get('filter-m2Upper'), $gte: Session.get('filter-m2Lower')}    
     };
   }
 }
