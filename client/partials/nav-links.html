@@ -1,7 +1,7 @@
 <template name="navLinks">
   <li {{activeClass '/'}}>
     <a href="{{pathFor 'nextListings'}}">
-      <i class="glyphicon glyphicon-certificate"></i> Neue Ergebnisse
+      <i class="glyphicon glyphicon-certificate"></i> Ergebnisse
       {{#if showCount 'nextListingsCount' }}
         <span class="badge">{{ showCount 'nextListingsCount' }}</span>
       {{/if}}

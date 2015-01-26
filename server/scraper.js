@@ -73,7 +73,7 @@ Scraper = {
       Logger.log('danger', 'Exception in Scraper Run', e.stack);
     }
 
-    Meteor.setTimeout(Scraper.run, 2500);
+    Meteor.setTimeout(Scraper.run, 800);
   },
 
   runTask: function(task) {

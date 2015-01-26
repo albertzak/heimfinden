@@ -58,12 +58,12 @@ Meteor.publish('logger', function() {
 })
 
 Meteor.publish('scraperTasks', function() {
-  Counts.publish(this, 'listingsAddedTodayCount', Listings.find({
-    scrapedTimestamp: { $gt: parseInt(moment().subtract(24, 'hours').format('X')) }
+  Counts.publish(this, 'listingsAddedLastHourCount', Listings.find({
+    scrapedTimestamp: { $gt: parseInt(moment().subtract(1, 'hour').format('X')) }
   }), { noReady: true });
   Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}), { noReady: true });
-  Counts.publish(this, 'scraperTasksAddedTodayCount', ScraperTasks.find({
-    addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X')) }
+  Counts.publish(this, 'scraperTasksAddedLastHourCount', ScraperTasks.find({
+    addedTimestamp: {$gt: parseInt(moment().subtract(1, 'hour').format('X')) }
   }), { noReady: true });
 
   return ScraperTasks.find({}, {
@@ -74,11 +74,11 @@ Meteor.publish('scraperTasks', function() {
 
 Meteor.publish('scraperTasksBlacklist', function() {
   Counts.publish(this, 'scraperTasksBlacklistCount', ScraperTasksBlacklist.find({}), { noReady: true });
-  Counts.publish(this, 'scraperTasksBlacklistAddedTodayCount', ScraperTasksBlacklist.find({
-    addedTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
+  Counts.publish(this, 'scraperTasksBlacklistAddedLastHourCount', ScraperTasksBlacklist.find({
+    addedTimestamp: {$gt: parseInt(moment().subtract(1, 'hour').format('X'))}
   }), { noReady: true });
-  Counts.publish(this, 'scraperTasksMatchedTodayCount', ScraperTasksBlacklist.find({
-    lastMatchTimestamp: {$gt: parseInt(moment().subtract(24, 'hours').format('X'))}
+  Counts.publish(this, 'scraperTasksMatchedLastHourCount', ScraperTasksBlacklist.find({
+    lastMatchTimestamp: {$gt: parseInt(moment().subtract(1, 'hour').format('X'))}
   }), { noReady: true });
 
   return ScraperTasksBlacklist.find({}, {
