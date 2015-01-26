@@ -12,22 +12,15 @@
           <a class="navbar-brand page-scroll" href="/">Heimfinden²</a>
         </div>
 
-          <div class="collapse navbar-collapse" id="navbar">
-            {{#if currentUser}}
-              <ul class="nav navbar-nav">
-                {{> navLinks}}
-              </ul>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav">
+            {{> navLinks}}
+          </ul>
 
-              <div class="navbar-right">
-                {{> filterButton}}
-              </div>
-            {{else}}
-              <ul class="nav navbar-nav">
-                <li class="navbar-form">{{> loginButtons}}</li>
-              </ul>
-            {{/if}}            
-          </div>
-
+          <div class="navbar-right">
+            {{> filterButton}}
+          </div>        
+        </div>
 
       </div>
       <div class="row">

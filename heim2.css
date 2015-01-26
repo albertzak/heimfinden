@@ -126,3 +126,20 @@ a.downvote:active, a.downvote.voted {
 .votable {
 
 }
+
+.huge {
+  font-size: 56px;
+}
+
+.huge .text-muted {
+  font-size: 26px;
+}
+
+.button-label {
+  margin-top: 15px;
+  display: block;
+}
+
+.login-button {
+  padding: 20px;
+}

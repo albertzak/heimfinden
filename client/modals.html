@@ -1,0 +1,29 @@
+<template name="modals">
+  {{#unless currentUser}}
+    {{> loginModal }}
+  {{/unless}}
+</template>
+
+<template name="loginModal">
+  <div id="loginModal" class="modal fade in">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+          <div class="modal-header">
+            <h1 class="modal-title text-center huge">
+              <b>Finde deine perfekte Wohnung.<br>
+              <span class="text-muted">Leistbare Mietwohnungen, nur in den stilvollsten Bezirken Wiens.</span></b>
+            </h1>
+          </div>
+
+          <div class="modal-body text-muted text-center">
+            <button class="login-button btn btn-block btn-primary">
+              Einloggen mit facebook
+            </button>
+            <small class="text-muted text-center button-label">Wir posten nichts auf deine Wand, versprochen.</small>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</template>
