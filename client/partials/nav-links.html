@@ -8,15 +8,6 @@
     </a>
   </li>
 
-  <li {{activeClass '/nein'}}>
-    <a href="{{pathFor 'downvotedListings'}}">
-      <i class="glyphicon glyphicon-remove"></i> Nein-Liste
-      {{#if showCount 'downvotedListingsCount' }}
-        <span class="badge">{{ showCount 'downvotedListingsCount' }}</span>
-      {{/if}}
-    </a>
-  </li>
-
   <li {{activeClass '/ja'}}>
     <a href="{{pathFor 'upvotedListings'}}">
       <i class="glyphicon glyphicon-heart"></i> Ja-Liste
@@ -30,6 +21,12 @@
     <a href="{{pathFor 'friends'}}">
       <i class="glyphicon glyphicon-user"></i>
       Freunde
+    </a>
+  </li>
+
+  <li {{activeClass '/nein'}}>
+    <a href="{{pathFor 'downvotedListings'}}">
+      <i class="glyphicon glyphicon-remove"></i> Nein-Liste
     </a>
   </li>
 
