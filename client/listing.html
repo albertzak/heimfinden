@@ -98,11 +98,13 @@
     </div>
   {{else}}
     <h2 class="text-center tp">
-      Du hast dir alle neuen Objekte angesehen<br>
+      Ändere die Filter oder warte ein wenig<br>
       <span class="small">
-        Ändere die Filter oder warte ein wenig.<br>
-        {{getPublishedCount 'scraperTasksCount'}} Seiten werden gerade abgesucht.<br>
-        Wir löschen Objekte, die älter als 20 Tage sind und nicht gewollt werden. 
+
+        Deine Filter verstecken noch {{showCount 'nextListingsUnfilteredCount'}} Objekte.<br> 
+        Wir suchen ständig nach neuen Objekten und haben<br>
+        in der letzten Stunde 
+        {{showCount 'listingsAddedLastHourCount'}} Neue gefunden. 
       </span>
     </h2>
   {{/each}}
