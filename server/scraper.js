@@ -92,8 +92,6 @@ Scraper = {
 
     if (success)
       ScraperTasks.remove({'payload.url': task.url});
-    else
-      Logger.log('warning', 'Task not successful', task);
   },
 
   scrapeResults: function(task) {
@@ -128,6 +126,10 @@ Scraper = {
     if (scraper.isNoLongerListed($$)) {
       ScraperTasksBlacklist.register(task);
       return true;
+    }
+
+    if (scraper.isPending($$)) {
+      return false;
     }
 
     parsedDetail = scraper.parseDetail($$);

@@ -62,6 +62,10 @@ Meteor.startup(function () {
         return ($('body').text().indexOf('Neue passende Anzeigen zu Ihrer Suche') > 0)
       },
 
+      isPending: function($) {
+        return ($('body').text().indexOf('befindet sich in der Warteschlange') > 0)
+      },
+
       parseDetail: function($$) {
         return {
           title:  Sanitize.title($$('head title').text()),
