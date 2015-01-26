@@ -1,7 +1,7 @@
 Cleaner = {
   run: function() {
-    cleanOldNoUpvotes();
-    cleanLimits();
+    Cleaner.cleanOldNoUpvotes();
+    Cleaner.cleanLimits();
   
     Meteor.setTimeout(Cleaner.run, 1000 * 60 * 60);
   },
@@ -21,18 +21,21 @@ Cleaner = {
   },
 
   cleanLimits: function() {
-    var count = 0;
+    var selector = {
+      $or: [
+        {$or: [ {price:   {$lt: Sanitize.limits.minPrice}},   {price: {$gt: Sanitize.limits.maxPrice     }}]},
+        {$or: [ {m2:      {$lt: Sanitize.limits.minm2}},      {m2:    {$gt: Sanitize.limits.maxm2        }}]},
+        {$or: [ {pricem2: {$lt: Sanitize.limits.minPricem2}}, {pricem2: {$gt: Sanitize.limits.maxPricem2 }}]},
+        {$not: { plz: {$in: Sanitize.limits.plz}}}
+      ],
+      upvoters: []
+    };
 
-    _.each(Listings.find({}).fetch(), function(listing) {
-      if ( ! Sanitize.validateLimits(listing)) {
-        // Listings.remove(listing._id);
-        count += 1;
-      }
-    });
+    var count = Listings.find(selector).count();
 
     if(count > 0) {
       Listings.remove(selector);
-      console.log("INFO", "Removed listings outside of limits:", count);
+      console.log("INFO", "Removed listings outside of limits with no upvoters:", count);
     }
   }
 
