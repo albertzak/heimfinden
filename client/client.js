@@ -1,3 +1,9 @@
+Deps.autorun(function(){
+  var count  = Counts.get('nextListingsCount');
+  count = (count > 0) ? '(' + count + ') ' : '';
+  document.title = count + 'Heimfinden²';
+});
+
 UI.registerHelper('simpleHumanTime', function(context, options) {
   if(context)
     return moment(context, 'X').format('DD.MM.YYYY HH:mm');
