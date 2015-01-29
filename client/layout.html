@@ -1,10 +1,17 @@
 <template name="layout">
-  {{> navbar}}
+  <html>
+    <head>
+      <title>Heimfinden²</title>
+    </head>
+    <body>
+      {{> navbar}}
+      {{> modals}}
 
-  <div class="container-fluid">
-    {{>yield}}
-  </div>
-
+      <div class="container-fluid">
+        {{>yield}}
+      </div>
+    </body>
+  </html>
 </template>
 
 <template name="loading">
