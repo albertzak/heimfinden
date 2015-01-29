@@ -41,13 +41,7 @@ UI.registerHelper('showCount', function(context, options) {
 
 UI.registerHelper('randomGreeting', function(context, options) {
   greetings = ['Hi', 'Hiya', 'Yo', 'Hallo', 'Hey', 'Yooo', 'Hej'];
-  return greetings[moment().weekday()];
-});
-
-UI.registerHelper('firstName', function(context, options) {
-  if(context && context.services && context.services.facebook.first_name) {
-    return context.services.facebook.first_name;
-  }
+  return greetings[moment().weekday()] + ', ' + Meteor.user().profile.name;
 });
 
 UI.registerHelper('profilePicture', function(context, options) {
