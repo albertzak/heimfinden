@@ -33,12 +33,28 @@ UI.registerHelper('showCount', function(context, options) {
     return false;
 });
 
+UI.registerHelper('randomGreeting', function(context, options) {
+  greetings = ['Hi', 'Hiya', 'Yo', 'Hallo', 'Hey', 'Yooo', 'Hej'];
+  return greetings[moment().weekday()];
+});
+
+UI.registerHelper('firstName', function(context, options) {
+  if(context && context.services && context.services.facebook.first_name) {
+    return context.services.facebook.first_name;
+  }
+});
+
 UI.registerHelper('profilePicture', function(context, options) {
   if(context && context.services && context.services.facebook && context.services.facebook.id) {
     return 'http://graph.facebook.com/'
             + context.services.facebook.id
             + "/picture/?type=square";
   }
+});
+
+Template.username.events({
+  'click .login-link': Meteor.loginWithFacebook,
+  'click .logout-link': Meteor.logout
 });
 
 Meteor.startup(function() {
