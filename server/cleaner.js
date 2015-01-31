@@ -1,5 +1,6 @@
 Cleaner = {
   run: function() {
+    Cleaner.cleanScraperTasksBlacklist();
     Cleaner.cleanOldNoUpvotes();
     Cleaner.cleanLimits();
   
@@ -37,10 +38,20 @@ Cleaner = {
       Listings.remove(selector);
       console.log("INFO", "Removed listings outside of limits with no upvoters:", count);
     }
+  },
+
+  cleanScraperTasksBlacklist: function() {
+    var selector = { lastMatchTimestamp: {$lt: Sanitize.limits.minLastMatchTimestamp()}};
+    var count = Listings.find(selector).count();
+
+    if(count > 0) {
+      Listings.remove(selector);
+      console.log("INFO", "Cleaned scraper tasks blacklist:", count);
+    }
   }
 
 }
 
 Meteor.startup(function() {
-  Meteor.setTimeout(Cleaner.run, 1000 * 60 * 60);
+  Cleaner.run();
 });
