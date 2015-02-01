@@ -44,15 +44,11 @@ Scraper = {
   },
 
   seed: function() {
-    ScraperStatus.set("Seeding");
-
     try {
       ScraperTasks.register(Scrapers.resultsTasks);
     } catch(e) {
       Logger.log('danger', 'Exception while Seeding', e);
     }
-
-    Meteor.setTimeout(Scraper.seed, 1000*60*5);
   },
 
   run: function() {
@@ -173,5 +169,4 @@ Scraper = {
 Meteor.startup(function() {
   Scraper.seed();
   Scraper.run();
-  Scraper.unpause();
 })
