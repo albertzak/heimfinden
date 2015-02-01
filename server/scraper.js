@@ -51,7 +51,14 @@ Scraper = {
     }
   },
 
-  run: function() {
+  autorun: function() {
+    Scraper.run(true);
+  },
+
+  run: function(auto) {
+    if (typeof auto === 'undefined')
+      auto = false;
+
     try {
       if( ! ScraperStatus.isPaused()) {
         var task = ScraperTasks.getRandomTask();
@@ -69,7 +76,8 @@ Scraper = {
       Logger.log('danger', 'Exception in Scraper Run', e.stack);
     }
 
-    Meteor.setTimeout(Scraper.run, 800);
+    if (auto)
+      Meteor.setInterval(Scraper.run, 800);
   },
 
   runTask: function(task) {
@@ -150,6 +158,8 @@ Scraper = {
         var upvoters   = existingListing.upvoters;
         var downvoters = existingListing.downvoters;
 
+        existingListing = _.unpick(existingListing, ['_id']);
+
         Listings.update({url: task.url}, _.extend(_.extend(existingListing, parsedDetail), {
           votes:      votes,
           upvoters:   upvoters,
@@ -168,5 +178,5 @@ Scraper = {
 
 Meteor.startup(function() {
   Scraper.seed();
-  Scraper.run();
+  Scraper.autorun();
 })
