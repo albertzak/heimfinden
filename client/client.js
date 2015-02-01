@@ -52,8 +52,12 @@ UI.registerHelper('showCount', function(context, options) {
 });
 
 UI.registerHelper('randomGreeting', function(context, options) {
-  greetings = ['Hi', 'Hiya', 'Yo', 'Hallo', 'Hey', 'Yooo', 'Hej'];
-  return greetings[moment().weekday()] + ', ' + Meteor.user().profile.name;
+  var greeting = ['Hi', 'Hiya', 'Yo', 'Hallo', 'Hey', 'Yooo', 'Hej'][moment().weekday()];
+  if(context && context.services && context.services.facebook && context.services.facebook.first_name)
+    var name = context.services.facebook.first_name;
+  else
+    var name = Meteor.user().profile.name;
+  return [greeting, name].join(', ');
 });
 
 UI.registerHelper('profilePicture', function(context, options) {

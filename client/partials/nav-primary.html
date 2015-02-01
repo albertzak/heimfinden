@@ -21,6 +21,9 @@
     <a href="{{pathFor 'friends'}}">
       <i class="glyphicon glyphicon-user"></i>
       Freunde
+      {{#if showCount 'friendsListingsCount' }}
+        <span class="badge">{{ showCount 'friendsListingsCount' }}</span>
+      {{/if}}
     </a>
   </li>
 </template>
