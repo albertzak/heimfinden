@@ -105,7 +105,7 @@ html, body {
 }
 
 .text-right .vote {
-  padding-right: 20px;
+  padding-right: 0px;
 }
 
 .text-left .vote {
@@ -145,6 +145,20 @@ a.downvote:active, a.downvote.voted {
 
 .votable {
 
+}
+
+.voter {
+  height: 50px;
+  width: auto;
+  margin-bottom: 40px;
+}
+
+.upvote {
+  padding-right: 10px;
+}
+
+.downvote {
+  padding-left: 10px;
 }
 
 .huge {

@@ -64,8 +64,22 @@ UI.registerHelper('profilePicture', function(context, options) {
   if(context && context.services && context.services.facebook && context.services.facebook.id) {
     return 'http://graph.facebook.com/'
             + context.services.facebook.id
-            + "/picture/?type=square";
+            + "/picture/?width=100&height=100";
   }
+});
+
+UI.registerHelper('name', function(context, options) {
+  if(context && context.profile && context.profile.name) {
+    return context.profile.name;
+  }
+});
+
+UI.registerHelper('users', function(context, options) {
+  return _.reject(_.map(context, function(id) {
+    if (id != Meteor.userId())
+      if (user = Meteor.users.findOne(id))
+        return user;
+  }), function(e) { return (typeof e === 'undefined'); });
 });
 
 Template.username.events({

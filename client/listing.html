@@ -42,7 +42,24 @@
       <div class="row">
         <!-- Downvote -->
         <div class="col-md-4 text-right">
-          <a href="#" class="vote downvote {{downvotedClass}}"><span class="glyphicon glyphicon-remove"></span></a>
+          <ul class="list-inline">
+            <li>
+              <ul class="list-inline">
+                {{#each users downvoters}}
+                  <li>
+                    <img src="{{profilePicture this}}" class="voter img-circle"
+                      title="{{name this}}"
+                      data-toggle="tooltip"
+                      data-placement="bottom" />
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+
+            <li>
+              <a href="#" class="vote downvote {{downvotedClass}}"><span class="glyphicon glyphicon-remove"></span></a>
+            </li>
+          </ul>
         </div>
 
         <div class="col-md-4 text-right">
@@ -82,7 +99,24 @@
 
         <!-- Upvote -->
         <div class="col-md-4 text-left">
-            <a href="#" class="vote upvote {{upvotedClass}}"><span class="glyphicon glyphicon-heart"></span></a>
+          <ul class="list-inline">
+            <li>
+              <a href="#" class="vote upvote {{upvotedClass}}"><span class="glyphicon glyphicon-heart"></span></a>
+            </li>
+
+            <li>
+              <ul class="list-inline">
+                {{#each users upvoters}}
+                  <li>
+                    <img src="{{profilePicture this}}" class="voter img-circle"
+                      title="{{name this}}"
+                      data-toggle="tooltip"
+                      data-placement="bottom" />
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
