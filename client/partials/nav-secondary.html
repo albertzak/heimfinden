@@ -1,0 +1,19 @@
+<template name="navSecondary">
+  <li>
+    <a href="{{pathFor 'downvotedListings'}}">Nein-Liste</a>
+  </li>
+
+  <li>
+    <a href="{{pathFor 'scraper'}}">
+    Systeminfo
+    {{> loggerBadge}}
+    </a>
+  </li>
+
+  {{#if currentUser}}
+    <li class="divider"></li>
+    <li>
+      <a href="#" class="logout-link">Ausloggen</a>
+    </li>
+  {{/if}}
+</template>

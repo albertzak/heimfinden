@@ -53,7 +53,14 @@ UI.registerHelper('profilePicture', function(context, options) {
 });
 
 Template.username.events({
-  'click .login-link': Meteor.loginWithFacebook,
+  'click .login-link': Meteor.loginWithFacebook
+});
+
+Template.loginModal.events({
+  'click .login-button': Meteor.loginWithFacebook
+});
+
+Template.navSecondary.events({
   'click .logout-link': Meteor.logout
 });
 

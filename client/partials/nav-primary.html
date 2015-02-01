@@ -1,4 +1,4 @@
-<template name="navLinks">
+<template name="navPrimary">
   <li {{activeClass '/'}}>
     <a href="{{pathFor 'nextListings'}}">
       <i class="glyphicon glyphicon-certificate"></i> Ergebnisse
@@ -21,22 +21,6 @@
     <a href="{{pathFor 'friends'}}">
       <i class="glyphicon glyphicon-user"></i>
       Freunde
-    </a>
-  </li>
-
-  <li {{activeClass '/nein'}}>
-    <a href="{{pathFor 'downvotedListings'}}">
-      <i class="glyphicon glyphicon-remove"></i> Nein-Liste
-    </a>
-  </li>
-
-  <li {{activeClass '/scraper'}}>
-    <a href="{{pathFor 'scraper'}}">
-      <i class="glyphicon glyphicon-signal"></i>
-      Scraper
-      {{#if showCount 'loggerCount' }}
-        <span class="badge">{{ showCount 'loggerCount' }}</span>
-      {{/if}}
     </a>
   </li>
 </template>

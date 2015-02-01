@@ -14,7 +14,8 @@ Meteor.startup(function() {
   Session.set('filter-m2Lower', Sanitize.limits.minm2);
 })
 
-Template.filterButton.rendered = function() {
+Template.filterPanel.rendered = function() {
+    $('.filter-panel').scrollupbar();
 
     // PLZ toggle filter
     $('.plz.toggle').click(function(e) {
