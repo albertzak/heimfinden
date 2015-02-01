@@ -7,5 +7,8 @@ Template.scraper.events({
   },
   'click .clear-logs': function() {
     Meteor.call('clearLogs');
+  },
+  'click .run-cleaner': function() {
+    Meteor.call('runCleaner');
   }
 });

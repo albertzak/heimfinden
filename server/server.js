@@ -26,5 +26,9 @@ Meteor.methods({
 
   clearLogs: function() {
     Logger.remove({});
+  },
+
+  runCleaner: function() {
+    Cleaner.run(true);
   }
 });

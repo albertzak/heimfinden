@@ -1,13 +1,18 @@
 Cleaner = {
-  run: function() {
-    Cleaner.cleanScraperTasksBlacklist();
-    Cleaner.cleanOldNoUpvotes();
-    Cleaner.cleanLimits();
-  
-    Meteor.setTimeout(Cleaner.run, 1000 * 60 * 60);
+  autorun: function() {
+    Meteor.setInterval(Cleaner.run, 1000 * 60 * 60);
   },
 
-  cleanOldNoUpvotes: function() {
+  run: function(log) {
+    if (typeof log === 'undefined')
+      log = false;
+
+    Cleaner.cleanScraperTasksBlacklist(log);
+    Cleaner.cleanOldNoUpvotes(log);
+    Cleaner.cleanLimits(log);
+  },
+
+  cleanOldNoUpvotes: function(log) {
     var selector = {
       sourceTimestamp: {$lt: Sanitize.limits.minSourceTimestamp()},
       upvoters: []
@@ -17,11 +22,12 @@ Cleaner = {
     
     if(count > 0) {
       Listings.remove(selector);
-      console.log("INFO", "Removed old listings with no upvotes:", count);
+      if (log)
+        Logger.log('info', 'Cleaner', 'Removed old listings with no upvotes: ' + count);
     }
   },
 
-  cleanLimits: function() {
+  cleanLimits: function(log) {
     var selector = {
       $or: [
         {$or: [ {price:   {$lt: Sanitize.limits.minPrice}},   {price: {$gt: Sanitize.limits.maxPrice     }}]},
@@ -36,22 +42,24 @@ Cleaner = {
 
     if(count > 0) {
       Listings.remove(selector);
-      console.log("INFO", "Removed listings outside of limits with no upvoters:", count);
+      if (log)
+        Logger.log('info', 'Cleaner', 'Removed listings outside of limits with no upvoters: ' + count);
     }
   },
 
-  cleanScraperTasksBlacklist: function() {
+  cleanScraperTasksBlacklist: function(log) {
     var selector = { lastMatchTimestamp: {$lt: Sanitize.limits.minLastMatchTimestamp()}};
-    var count = Listings.find(selector).count();
+    var count = ScraperTasksBlacklist.find(selector).count();
 
     if(count > 0) {
-      Listings.remove(selector);
-      console.log("INFO", "Cleaned scraper tasks blacklist:", count);
+      ScraperTasksBlacklist.remove(selector);
+      if (log)
+        Logger.log('info', 'Cleaner', 'Cleaned scraper tasks blacklist: ' + count);
     }
   }
 
 }
 
 Meteor.startup(function() {
-  Cleaner.run();
+  Cleaner.autorun();
 });
