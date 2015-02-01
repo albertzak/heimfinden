@@ -16,7 +16,7 @@ Meteor.methods({
     var user = Meteor.user();
     var listing = Listings.findOne(id);
 
-    if (!user) Meteor.loginWithFacebook();
+    if (!user) Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
     if (!listing) throw('URL not found');
 
     if (down) {

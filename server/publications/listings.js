@@ -33,5 +33,12 @@ Meteor.publish('singleListing', function(_id) {
 });
 
 Meteor.publish('friendsListings', function() {
-  return Listings.find({}, { sort: { sourceTimestamp: 1 }});
+  var friends = Meteor.users.findOne(this.userId).friends || [];
+  
+  var selector = {
+    upvoters:   {$in: friends},
+    downvoters: {$ne: this.userId}
+  };
+
+  return Listings.find(selector);
 });

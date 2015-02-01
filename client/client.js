@@ -1,3 +1,15 @@
+Deps.autorun(function() {
+  if (Meteor.user() && typeof FbFriends === 'undefined') {
+    FbFriends = FacebookCollections.getFriends('me', ['id', 'name'], 5000); 
+  }
+});
+
+Deps.autorun(function() {
+  if (Meteor.user() && FbFriends) {
+    Meteor.call('cacheFbFriends', FbFriends.find({}).fetch());
+  }
+});
+
 Deps.autorun(function(){
   var count  = Counts.get('nextListingsCount');
   count = (count > 0) ? '(' + count + ') ' : '';
@@ -53,33 +65,17 @@ UI.registerHelper('profilePicture', function(context, options) {
 });
 
 Template.username.events({
-  'click .login-link': Meteor.loginWithFacebook
+  'click .login-link': function() {
+    Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
+  }
 });
 
 Template.loginModal.events({
-  'click .login-button': Meteor.loginWithFacebook
+  'click .login-button': function() {
+    Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
+  }
 });
 
 Template.navSecondary.events({
   'click .logout-link': Meteor.logout
-});
-
-Meteor.startup(function() {
-  moment.locale('de', {
-    relativeTime : {
-      future: "in %s",
-      past:   "vor %s",
-      s:  "5 Sekunden",
-      m:  "einer Minute",
-      mm: "%d Minuten",
-      h:  "einer Stunde",
-      hh: "%d Stunden",
-      d:  "einem Tag",
-      dd: "%d Tagen",
-      M:  "einem Monat",
-      MM: "%d Monaten",
-      y:  "einem Jahr",
-      yy: "%d Jahren"
-    }
-  });
 });

@@ -2,7 +2,7 @@ Template.listing.events({
   'click .vote': function(e) {
     e.preventDefault();
     if (!Meteor.userId())
-      Meteor.loginWithFacebook();
+      Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
   },
 
   'click .upvote.votable': function(e) {
