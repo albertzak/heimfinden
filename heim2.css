@@ -177,3 +177,13 @@ a.downvote:active, a.downvote.voted {
 .login-button {
   padding: 20px;
 }
+
+.safari-translucency-fix {
+  position: fixed;
+  top: -399px;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  background-color: #fff;
+  z-index: 1020;
+}
