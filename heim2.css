@@ -81,6 +81,10 @@ html, body {
   padding-right: 15px;
 }
 
+.md-margin {
+  margin: 15px;
+}
+
 .noUi-handle {
   cursor: hand;
 }

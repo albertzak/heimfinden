@@ -1,8 +1,8 @@
 <template name="username">
   {{#if currentUser}}
-    {{ randomGreeting }}
+    {{ randomGreeting currentUser }}
   {{else}}
-    <span class="login-link">Einloggen mit facebook</span>
+    {{ randomGreeting }}
   {{/if}}
 
   {{> loggerBadge}}

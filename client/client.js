@@ -54,10 +54,9 @@ UI.registerHelper('showCount', function(context, options) {
 UI.registerHelper('randomGreeting', function(context, options) {
   var greeting = ['Hi', 'Hiya', 'Yo', 'Hallo', 'Hey', 'Yooo', 'Hej'][moment().weekday()];
   if(context && context.services && context.services.facebook && context.services.facebook.first_name)
-    var name = context.services.facebook.first_name;
+    return [greeting, context.services.facebook.first_name].join(', ');
   else
-    var name = Meteor.user().profile.name;
-  return [greeting, name].join(', ');
+    return greeting + '!';
 });
 
 UI.registerHelper('profilePicture', function(context, options) {
@@ -82,7 +81,7 @@ UI.registerHelper('users', function(context, options) {
   }), function(e) { return (typeof e === 'undefined'); });
 });
 
-Template.username.events({
+Template.navSecondary.events({
   'click .login-link': function() {
     Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
   }

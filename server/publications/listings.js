@@ -33,8 +33,11 @@ Meteor.publish('singleListing', function(_id) {
 });
 
 Meteor.publish('friendsListings', function() {
-  var friends = Meteor.users.findOne(this.userId).friends || [];
-  
+  if (this.userId && Meteor.users.findOne(this.userId))
+    var friends = Meteor.users.findOne(this.userId).friends || [];
+  else
+    var friends = [];
+      
   var selector = {
     upvoters:   {$in: friends},
     downvoters: {$ne: this.userId}

@@ -1,4 +1,14 @@
 <template name="navSecondary">
+
+  {{#unless currentUser}}
+    <li>
+      <div class="md-margin">
+        <button class="login-link btn btn-primary">Einloggen mit facebook</button>
+      </div>
+    </li>
+    <li class="divider"></li>
+  {{/unless}}
+
   <li>
     <a href="{{pathFor 'downvotedListings'}}">Nein-Liste</a>
   </li>

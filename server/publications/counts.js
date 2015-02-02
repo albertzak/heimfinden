@@ -1,7 +1,11 @@
 Meteor.publish('counts', function(selector) {
   if (typeof selector === 'undefined')
     selector = {};
-  var friends = Meteor.users.findOne(this.userId).friends || [];
+  
+  if (this.userId && Meteor.users.findOne(this.userId))
+    var friends = Meteor.users.findOne(this.userId).friends || [];
+  else
+    var friends = [];
 
   Counts.publish(this, 'nextListingsCount', Listings.find(_.extend(selector, {
     upvoters:   {$ne: this.userId},
