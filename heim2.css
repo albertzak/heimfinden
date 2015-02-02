@@ -39,6 +39,7 @@ html, body {
   max-height: 420px;
   white-space: nowrap;
   overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
   padding: 0;
 
   background-color: #efefef;
