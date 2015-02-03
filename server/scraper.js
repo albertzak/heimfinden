@@ -77,7 +77,7 @@ Scraper = {
     }
 
     if (auto)
-      Meteor.setInterval(Scraper.run, 800);
+      Meteor.setInterval(Scraper.run, 1200);
   },
 
   runTask: function(task) {
