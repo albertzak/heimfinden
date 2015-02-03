@@ -85,11 +85,13 @@ Scraper = {
     task = task.payload;
 
     if(ScraperTasksBlacklist.match(task))
-      ScraperTasks.remove({'payload.url': task.url});
+      ScraperTasks.remove({'payload.url': task.url}) && return;
 
     if(task.parseType === 'results')
       success = Scraper.scrapeResults(task);
     else if (task.parseType === 'detail')
+      if(Listings.find({url: task.url}))
+        ScraperTasks.remove({'payload.url': task.url}) && return;
       success = Scraper.scrapeDetail(task);
     else
       Logger.log('warning', 'Unrecognized task type', task.parseType);
