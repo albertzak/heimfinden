@@ -1,4 +1,5 @@
 request = Meteor.npmRequire('request');
+Fiber   = Meteor.npmRequire('fibers');
 
 Scrapers = {
   all: {},
@@ -60,18 +61,20 @@ Scraper = {
       auto = false;
 
     try {
-      if( ! ScraperStatus.isPaused()) {
-        var task = ScraperTasks.getRandomTask();
+      Fiber(function() {
+        if( ! ScraperStatus.isPaused()) {
+          var task = ScraperTasks.getRandomTask();
 
-        if(task)
-          try {
-            Scraper.runTask(task);
-          } catch(e) {
-            Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
-          }
-        else
-          Scraper.seed();
-      }
+          if(task)
+            try {
+              Scraper.runTask(task);
+            } catch(e) {
+              Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
+            }
+          else
+            Scraper.seed();
+        }
+      }).run();
     } catch(e) {
       Logger.log('danger', 'Exception in Scraper Run', e.stack);
     }
@@ -98,8 +101,9 @@ Scraper = {
       }
       success = Scraper.scrapeDetail(task);
     }
-    else
+    else {
       Logger.log('warning', 'Unrecognized task type', task.parseType);
+    }
 
     if (success)
       ScraperTasks.remove({'payload.url': task.url});

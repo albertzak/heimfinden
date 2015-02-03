@@ -7,9 +7,11 @@ Cleaner = {
     if (typeof log === 'undefined')
       log = false;
 
-    Cleaner.cleanScraperTasksBlacklist(log);
-    Cleaner.cleanOldNoUpvotes(log);
-    Cleaner.cleanLimits(log);
+    Fiber(function() {
+      Cleaner.cleanScraperTasksBlacklist(log);
+      Cleaner.cleanOldNoUpvotes(log);
+      Cleaner.cleanLimits(log);
+    }).run();
   },
 
   cleanOldNoUpvotes: function(log) {
@@ -54,7 +56,7 @@ Cleaner = {
     if(count > 0) {
       ScraperTasksBlacklist.remove(selector);
       if (log)
-        Logger.log('info', 'Cleaner', 'Cleaned scraper tasks blacklist: ' + count);
+        Logger.log('info', 'Cleaner', 'Removed scraper tasks blacklist: ' + count);
     }
   }
 
