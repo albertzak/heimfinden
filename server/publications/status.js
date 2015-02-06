@@ -1,5 +1,9 @@
 Meteor.publish('scraperStatus', function() {
   Counts.publish(this, 'scraperTasksCount', ScraperTasks.find({}), { noReady: true });
+
+  Counts.publish(this, 'scraperTasksResultsCount', ScraperTasks.find({ 'payload.parseType': 'results'}), { noReady: true });
+  Counts.publish(this, 'scraperTasksDetailCount',  ScraperTasks.find({ 'payload.parseType': 'detail'}),  { noReady: true });
+
   Counts.publish(this, 'scraperTasksAddedLastHourCount', ScraperTasks.find({
     addedTimestamp: {$gt: parseInt(moment().subtract(1, 'hour').format('X')) }
   }), { noReady: true });

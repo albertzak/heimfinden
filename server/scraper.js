@@ -84,7 +84,6 @@ Scraper = {
   },
 
   runTask: function(task) {
-    ScraperStatus.set('Running');
     task = task.payload;
 
     if(ScraperTasksBlacklist.match(task)) {
@@ -95,7 +94,7 @@ Scraper = {
     if(task.parseType === 'results')
       success = Scraper.scrapeResults(task);
     else if (task.parseType === 'detail') {
-      if(Listings.find({url: task.url})) {
+      if(Listings.findOne({url: task.url})) {
         ScraperTasks.remove({'payload.url': task.url});
         return;
       }

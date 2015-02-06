@@ -28,16 +28,22 @@
           </section>
 
           <section>
+            <br>
             <h4>
               Tasks
               <span class="badge badge-info">{{ getPublishedCount 'scraperTasksCount' }}</span>
             </h4>
+            <p>
+              <b>{{ getPublishedCount 'scraperTasksResultsCount' }}</b> Results Tasks<br>
+              <b>{{ getPublishedCount 'scraperTasksDetailCount' }}</b> Detail Tasks
+            </p>
             <p>
               Letzte Stunde: <b>{{ getPublishedCount 'scraperTasksAddedLastHourCount' }}</b> neue Tasks
             </p>
           </section>
 
           <section>
+            <br>
             <h4>
               Blacklist
               <span class="badge badge-info">{{ getPublishedCount 'scraperTasksBlacklistCount' }}</span>
