@@ -11,8 +11,8 @@ ScraperStatus.set = function(status, payload) {
     return ScraperStatus.insert(payload);
   }
 
-  oldPayload = ScraperStatus.get();
-  payload = _.extend(oldPayload, { status: status });
+  oldPayload = _.unpick(ScraperStatus.get(), ['_id']);
+  payload = _.extend(oldPayload, payload);
   return ScraperStatus.update({}, payload);
 }
 
@@ -25,7 +25,7 @@ ScraperStatus.get = function() {
 }
 
 ScraperStatus.isPaused = function() {
-  return ScraperStatus.get().paused || false;
+  return ScraperStatus.get().paused;
 }
 
 ScraperTasks.register = function(payload) {

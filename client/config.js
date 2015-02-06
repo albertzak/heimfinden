@@ -23,6 +23,10 @@ Meteor.startup(function () {
     'sourceTimestamp': 1,
   });
 
+  ScraperStatus._ensureIndex({
+    'paused': 1,
+  });
+
   ScraperTasks._ensureIndex({
     'payload.url': 1,
   });
