@@ -4,6 +4,7 @@
       <title>Heimfinden²</title>
     </head>
     <body>
+      {{> connectionBanner}}
       {{> navbar}}
       {{> modals}}
 
@@ -12,12 +13,12 @@
           {{> filterPanel}}
         </div>
         
-        {{>yield}}
+        {{> yield}}
       </div>
     </body>
   </html>
 </template>
 
 <template name="loading">
-  {{>spinner}}
+  {{> spinner}}
 </template>
