@@ -53,34 +53,28 @@ Scraper = {
   },
 
   autorun: function() {
-    Scraper.run(true);
-  },
-
-  run: function(auto) {
-    if (typeof auto === 'undefined')
-      auto = false;
-
     try {
+      var interval = (Meteor.users.activeCount() > 0) ? 250 : 2500;
       Fiber(function() {
-        if( ! ScraperStatus.isPaused()) {
-          var task = ScraperTasks.getRandomTask();
-
-          if(task)
-            try {
-              Scraper.runTask(task);
-            } catch(e) {
-              Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
-            }
-          else
-            Scraper.seed();
-        }
+        Scraper.run();
       }).run();
     } catch(e) {
-      Logger.log('danger', 'Exception in Scraper Run', e.stack);
+      Logger.log('danger', 'Exception in Scraper Autorun', e.stack);
     }
 
-    if (auto)
-      Meteor.setInterval(Scraper.run, 1200);
+    Meteor.setTimeout(Scraper.autorun, interval || 250);
+  },
+
+  run: function() {
+    if(ScraperStatus.isPaused()) { return; }
+    var task = ScraperTasks.getRandomTask();
+    if( ! task) { Scraper.seed(); }
+
+    try {
+      Scraper.runTask(task);
+    } catch(e) {
+      Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
+    }
   },
 
   runTask: function(task) {

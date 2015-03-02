@@ -5,6 +5,18 @@ Accounts.ui.config({
   extraSignupFields: []
 });
 
+Deps.autorun(function() {
+  if(Meteor.userId()){
+    try {
+      UserStatus.startMonitor({
+        threshold: 60000,
+        interval: 10000,
+        idleOnBlur: true
+      });
+    } catch(e) {}
+  }
+});
+
 moment.locale('de', {
   relativeTime : {
     future: "in %s",
