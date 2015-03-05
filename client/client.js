@@ -37,6 +37,14 @@ UI.registerHelper('isoTime', function(context, options) {
     return '';
 });
 
+UI.registerHelper('linebreaks', function(context, options) {
+  if(context)
+    return context.split('\n').join('<br>');
+  else
+    return '';
+});
+
+
 UI.registerHelper('activeClass', function(context, options) {
   if(context === Router.current().route.path())
     return {class: 'active'};

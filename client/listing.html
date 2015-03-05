@@ -18,28 +18,6 @@
       </div>
 
       <div class="row">
-
-        <!-- Middle -->
-        <div class="col-md-offset-4 col-md-4">
-
-          <!-- Price, m2, Price/m2 -->
-          <h1 class="text-center">
-            <span class="sp">
-              <small>&euro;</small>{{price}}
-            </span>
-
-            <span class="sp">
-              {{m2}}<small>m²</small>
-            </span>
-
-            <span class="sp">
-              {{pricem2}}<small>&euro;/m²</small>
-            </span>
-          </h1>
-        </div>
-      </div>
-
-      <div class="row">
         <!-- Downvote -->
         <div class="col-md-4 text-right">
           <ul class="list-inline">
@@ -62,7 +40,24 @@
           </ul>
         </div>
 
+        <!-- Middle -->
         <div class="col-md-4 text-right">
+
+          <!-- Price, m2, Price/m2 -->
+          <h1 class="text-center">
+            <span class="sp">
+              <small>&euro;</small>{{price}}
+            </span>
+
+            <span class="sp">
+              {{m2}}<small>m²</small>
+            </span>
+
+            <span class="sp">
+              {{pricem2}}<small>&euro;/m²</small>
+            </span>
+          </h1>
+
           <h4 class="text-center agency">
             <abbr {{agencyAttr}}>{{agencyLabel}}</abbr>
             <span class="label label-default">{{type}}</span>
