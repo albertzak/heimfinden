@@ -2,6 +2,7 @@ Meteor.startup(function () {
   Scrapers.register({
     'willhaben': {
       baseUrl: 'http://www.willhaben.at',
+      sourceEncoding: 'ISO-8859-1',
 
       resultsTasks: function() {
 

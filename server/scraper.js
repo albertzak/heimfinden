@@ -22,16 +22,20 @@ Scrapers = {
   },
 
   updateResultsTasks: function() {
+    var newResultsTasks = [];
+
     _.each(Scrapers.all, function(scraper) {
-      var tempResultsTasks = _.map(scraper.resultsTasks, function(resultTask) {
+      var temp = _.map(scraper.resultsTasks, function(resultTask) {
         return _.extend(resultTask, {
           source: scraper.name,
           parseType: 'results'
         });
-      })
+      });
 
-      Scrapers.resultsTasks = _.union(Scrapers.resultsTasks, [tempResultsTasks]);
+      newResultsTasks = _.union(Scrapers.resultsTasks, temp);
     });
+
+    Scrapers.resultsTasks = newResultsTasks;
   }
 };
 
@@ -104,7 +108,7 @@ Scraper = {
 
   scrapeResults: function(task) {
     var scraper = Scrapers.all[task.source];
-    var $ = ScraperUtil.fetch(task.url);
+    var $ = ScraperUtil.fetch(task.url, scraper.sourceEncoding);
 
     var results = $(scraper.resultSelector);
 
@@ -131,7 +135,7 @@ Scraper = {
 
   scrapeDetail: function(task) {
     var scraper = Scrapers.all[task.source];
-    $$ = ScraperUtil.fetch(task.url);
+    $$ = ScraperUtil.fetch(task.url, scraper.sourceEncoding);
 
     if (scraper.isNoLongerListed($$)) {
       ScraperTasksBlacklist.register(task);

@@ -2,6 +2,7 @@ Meteor.startup(function () {
   Scrapers.register({
     'provisionsfrei': {
       baseUrl: 'http://www.provisionsfrei.at/',
+      sourceEncoding: 'ISO-8859-1',
 
       resultsTasks: function() {
 

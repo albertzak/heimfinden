@@ -1,5 +1,8 @@
 ScraperUtil = {
-  asyncFetch: function(url, callback) {
+  asyncFetch: function(url, sourceEncoding, callback) {
+    if (typeof sourceEncoding === 'undefined')
+      sourceEncoding = 'UTF-8';
+
     var options = {
       headers: {
         'User-Agent':      'Chrome',
@@ -9,7 +12,7 @@ ScraperUtil = {
       }
     };
 
-    request(url, options).pipe(iconv.decodeStream('ISO-8859-1')).collect(Meteor.bindEnvironment(function(e, body) {
+    request(url, options).pipe(iconv.decodeStream(sourceEncoding)).collect(Meteor.bindEnvironment(function(e, body) {
       callback(e, cheerio.load(body));
     }));
   }
