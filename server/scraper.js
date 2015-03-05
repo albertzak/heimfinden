@@ -68,19 +68,19 @@ Scraper = {
   run: function() {
     if(ScraperStatus.isPaused()) { return; }
     var task = ScraperTasks.getRandomTask();
-    if( ! task) { Scraper.seed(); }
+    if( ! task) { Scraper.seed(); return;}
 
     try {
       Scraper.runTask(task);
     } catch(e) {
-      Logger.log('danger', 'Exception in Scraper ' + task.payload.source, JSON.stringify(task.payload) + '\n\n' + e.stack);
+      Logger.log('danger', 'Exception in Scraper', JSON.stringify(task) + '\n\n' + e.stack);
     }
   },
 
   runTask: function(task) {
     task = task.payload;
 
-    if(ScraperTasksBlacklist.match(task)) {
+    if(ScraperTasksBlacklist.match(task) || Listings.findOne({url: task.url})) {
       ScraperTasks.remove({'payload.url': task.url});
       return;
     }
@@ -114,14 +114,16 @@ Scraper = {
     results.each(function(i, el) {
       var parsedResult = scraper.parseResult($, el);
 
-      ScraperTasks.register({
-          url:       parsedResult.url,
-          plz:       parseInt(task.plz),
-          type:      task.type,
-          source:    scraper.name,
-          parseType: 'detail',
-          detail:    parsedResult.detail
-      });
+      if ( ! Listings.findOne({url: task.url})) {
+        ScraperTasks.register({
+            url:       parsedResult.url,
+            plz:       parseInt(task.plz),
+            type:      task.type,
+            source:    scraper.name,
+            parseType: 'detail',
+            detail:    parsedResult.detail
+        });
+      }
     });
 
     return true;
@@ -142,13 +144,13 @@ Scraper = {
 
     parsedDetail = scraper.parseDetail($$);
     parsedDetail = _.extend(_.extend(parsedDetail, task.detail), {
-      plz:     task.plz,
+      plz:     (task.plz || parsedDetail.plz),
       url:     task.url,
       type:    task.type,
       source:  task.source,
       price:   Math.ceil(parsedDetail.price),
       pricem2: Math.round(parsedDetail.price / parsedDetail.m2),
-      scrapedTimestamp:   Math.floor(Date.now() / 1000),
+      scrapedTimestamp: Math.floor(Date.now() / 1000),
       votes:      0,
       upvoters:   [],
       downvoters: []
