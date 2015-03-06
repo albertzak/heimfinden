@@ -24,7 +24,6 @@ Meteor.publish('votedListings', function(voteDirection) {
 
   return Listings.find(selector, {
     sort: {sourceTimestamp: -1},
-    limit: 5
   });
 });
 
@@ -43,5 +42,7 @@ Meteor.publish('friendsListings', function() {
     downvoters: {$ne: this.userId}
   };
 
-  return Listings.find(selector);
+  return Listings.find(selector, {
+    sort: {sourceTimestamp: -1}
+  });
 });

@@ -17,6 +17,10 @@ Deps.autorun(function() {
   }
 });
 
+Meteor.startup(function() {
+  Pagination.style('bootstrap');
+});
+
 moment.locale('de', {
   relativeTime : {
     future: "in %s",

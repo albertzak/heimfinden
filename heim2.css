@@ -184,6 +184,10 @@ a.downvote:active, a.downvote.voted {
   padding: 20px;
 }
 
+.pagination-cont {
+  text-align: center;
+}
+
 .safari-translucency-fix {
   position: fixed;
   top: -399px;

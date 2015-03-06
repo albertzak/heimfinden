@@ -16,6 +16,15 @@ Deps.autorun(function(){
   document.title = count + 'Heimfinden²';
 });
 
+UI.registerHelper('pagination', function(context, options) {
+   return Pagination.links(
+    Router.current().route.path(),
+    Listings.find(Listings.defaultSelector()).count(), {
+      currentPage: Session.get('page'),
+      perPage: 4
+    });
+});
+
 UI.registerHelper('simpleHumanTime', function(context, options) {
   if(context)
     return moment(context, 'X').format('DD.MM.YYYY HH:mm');
@@ -103,4 +112,13 @@ Template.loginModal.events({
 
 Template.navSecondary.events({
   'click .logout-link': Meteor.logout
+});
+
+Deps.autorun(function () {
+  var current = Router.current();
+
+  Deps.afterFlush(function () {
+    $('.content-inner').scrollTop(0);
+    $(window).scrollTop(0);
+  });
 });
