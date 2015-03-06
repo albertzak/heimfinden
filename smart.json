@@ -2,6 +2,9 @@
   "packages": {
     "timmyg:meteor-nouislider": {
       "git": "https://github.com/timmyg/meteor-noUiSlider"
+    },
+    "egtann:meteor-pagination": {
+      "path": "packages/meteor-pagination"
     }
   }
 }

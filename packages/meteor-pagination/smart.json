@@ -1,0 +1,9 @@
+{
+  "name": "pagination",
+  "description": "Paginate cursors in just a few lines of code",
+  "homepage": "https://github.com/egtann/meteor-pagination",
+  "author": "Evan Tann",
+  "version": "1.1.0",
+  "git": "https://github.com/egtann/meteor-pagination.git",
+  "packages": {}
+}
