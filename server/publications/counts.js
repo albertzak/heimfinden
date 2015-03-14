@@ -8,18 +8,20 @@ Meteor.publish('counts', function(selector) {
     var friends = [];
 
   Counts.publish(this, 'nextListingsCount', Listings.find(_.extend(selector, {
-    upvoters:   {$ne: this.userId},
-    downvoters: {$ne: this.userId},
+    upvoters:   [],
+    downvoters: [],
   })), { noReady: true });
 
   Counts.publish(this, 'nextListingsUnfilteredCount', Listings.find({
-    upvoters:   {$ne: this.userId},
-    downvoters: {$ne: this.userId},
+    upvoters:   [],
+    downvoters: [],
   }), { noReady: true });
 
   Counts.publish(this, 'allListingsCount', Listings.find(), { noReady: true });
 
-  Counts.publish(this, 'upvotedListingsCount', Listings.find(_.extend(selector, { upvoters:   this.userId})), { noReady: true });
+  Counts.publish(this, 'upvotedListingsCount', Listings.find(_.extend(selector, {
+    'upvoters': {$not: {$size: 0}}
+  })), { noReady: true });
 
   Counts.publish(this, 'friendsListingsCount', Listings.find(_.extend(selector, {
     upvoters:   {$in: friends},
