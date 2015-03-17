@@ -64,7 +64,7 @@ Meteor.startup(function () {
       },
 
       isPending: function($) {
-        return ($('body').text().indexOf('befindet sich in der Warteschlange') > 0)
+        return (($('body').text().indexOf('befindet sich in der Warteschlange') > 0) || ($('body').text().indexOf('Die Anzeige wartet auf Aktivierung') > 0));
       },
 
       parseDetail: function($$) {
