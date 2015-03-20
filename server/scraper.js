@@ -148,7 +148,7 @@ Scraper = {
 
     parsedDetail = scraper.parseDetail($$);
     parsedDetail = _.extend(_.extend(parsedDetail, task.detail), {
-      plz:     (task.plz || parsedDetail.plz),
+      plz:     (parsedDetail.plz || task.plz),
       url:     task.url,
       type:    task.type,
       source:  task.source,

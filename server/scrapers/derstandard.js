@@ -69,6 +69,33 @@ Meteor.startup(function () {
           m2:     Sanitize.number($$('.flaeche').text()),
           rooms:  Sanitize.number($$('.zimmer').text()),
 
+          plz:    function() {
+            var slugsPlz = {
+              'wien--1.--innere-stadt': 1010,
+              'wien--3.--landstraße':   1030,
+              'wien--4.--wieden':       1040,
+              'wien--6.--mariahilf':    1060,
+              'wien--7.--neubau':       1070,
+              'wien--8.--josefstadt':   1080,
+              'wien--9.--alsergrund':   1090,
+              'wien--17.--hernals':     1170,
+              'wien--18.--währing':     1180,
+              'wien--19.--döbling':     1190,
+              'wien-17.--hernals':      1170,
+              'wien-18.--währing':      1180,
+              'wien-19.--döbling':      1190,
+            };
+
+            var result = $$('.Block.Ort').text()
+              .trim().toLowerCase()
+              .split(' ').join('-')
+              .split(',').join('-');
+
+            result = slugsPlz[result];
+
+            return result;
+          }(),
+
           street: function() {
             if ($$(':contains(Adresse:)').length > 0)
               return $$(':contains(Adresse:)').last().siblings('.Bd_Value').text();
