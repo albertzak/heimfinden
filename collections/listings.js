@@ -17,7 +17,7 @@ Meteor.methods({
     var listing = Listings.findOne(id);
 
     if (!user) Meteor.loginWithFacebook({requestPermissions: Accounts.ui._options.requestPermissions.facebook});
-    if (!listing) throw('URL not found');
+    if (!listing) return;
 
     if (down) {
       if(_.include(listing.upvoters, user._id)) {
@@ -26,7 +26,7 @@ Meteor.methods({
           $inc: {votes: -1}
         });
       }
-      if (_.include(listing.downvoters, user._id)) throw('Already downvoted');
+      if (_.include(listing.downvoters, user._id)) return;
       Listings.update(listing._id, {
         $addToSet: {downvoters: user._id},
         $inc: {votes: -1}
@@ -39,7 +39,7 @@ Meteor.methods({
           $inc: {votes: +1}
         });
       }
-      if (_.include(listing.upvoters, user._id)) throw('Already upvoted');
+      if (_.include(listing.upvoters, user._id)) return;
       Listings.update(listing._id, {
         $addToSet: {upvoters: user._id},
         $inc: {votes: +1}
