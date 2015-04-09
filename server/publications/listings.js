@@ -11,7 +11,10 @@ Meteor.publish('nextListings', function(limit) {
 
 Meteor.publish('votedListings', function(voteDirection) {
   if (voteDirection === 'upvoted')
-    var selector = { 'upvoters.0': { $exists: true }};
+    var selector = {
+      'upvoters.0': { $exists: true },
+      'downvoters': []
+    };
   else if (voteDirection === 'downvoted')
     var selector = { 'downvoters.0': { $exists: true }};
   else
@@ -39,7 +42,7 @@ Meteor.publish('friendsListings', function() {
       
   var selector = {
     upvoters:   {$in: friends},
-    downvoters: {$ne: this.userId}
+    downvoters: [],
   };
 
   return Listings.find(selector, {

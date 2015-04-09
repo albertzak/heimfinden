@@ -20,12 +20,13 @@ Meteor.publish('counts', function(selector) {
   Counts.publish(this, 'allListingsCount', Listings.find(), { noReady: true });
 
   Counts.publish(this, 'upvotedListingsCount', Listings.find(_.extend(selector, {
-    'upvoters': {$not: {$size: 0}}
+    'upvoters': {$not: {$size: 0}},
+    'downvoters': []
   })), { noReady: true });
 
   Counts.publish(this, 'friendsListingsCount', Listings.find(_.extend(selector, {
     upvoters:   {$in: friends},
-    downvoters: {$ne: this.userId}
+    downvoters: []
   })), { noReady: true });
 
   Counts.publish(this, 'listingsAddedLastHourCount', Listings.find({
