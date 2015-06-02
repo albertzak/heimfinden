@@ -6,43 +6,38 @@ Meteor.startup(function () {
 
       resultsTasks: function() {
 
-        var plzSlugs = {
-          1010: 'wien--1.--innere-stadt',
-          1030: 'wien--3.--landstraße',
-          1040: 'wien--4.--wieden',
-          1060: 'wien--6.--mariahilf',
-          1070: 'wien--7.--neubau',
-          1080: 'wien--8.--josefstadt',
-          1090: 'wien--9.--alsergrund',
-          1170: 'wien--17.--hernals',
-          1180: 'wien--18.--währing',
-          1190: 'wien--19.--döbling',
+        var ortSlugs = {
+          'Bruck-Mürzzuschlag': 'Bruck-M%C3%BCrzzuschlag',
+          'Deutschlandsberg': 'Deutschlandsberg',
+          'Graz': 'Graz--(Alle-Bezirke)',
+          'Graz-Umgebung': 'Graz-Umgebung',
+          'Hartberg-Fürstenfeld': 'Hartberg-F%C3%BCrstenfeld',
+          'Leibnitz': 'Leibnitz',
+          'Leoben': 'Leoben',
+          'Liezen': 'Liezen',
+          'Murau': 'Murau',
+          'Murtal': 'Murtal',
+          'Südoststeiermark': 'S%C3%BCdoststeiermark',
+          'Voitsberg': 'Voitsberg',
+          'Weiz': 'Weiz'
         };
 
-        var typeSlugs = {
-          'Wohnung': 'Suche/mieten/wohnung/wien/',
-          'Gewerbeimmobilie': 'Suche/mieten/gewerbeimmobilie/wien/'
-        };
-
-        var makeUrl = function(typeSlug, plzSlug) {
+        var makeUrl = function(slug) {
           return [
-            'http://derstandard.at/Immobilien/',
-            typeSlug,
-            plzSlug
+            'http://derstandard.at/Immobilien/Suche/Mieten/Wohnung/Steiermark/',
+            slug
           ].join('');
         };
 
         tasks = [];
 
-        _.each(typeSlugs, function(typeSlug, type) {
-          _.each(plzSlugs, function(plzSlug, plz) {
-            tasks.push({
-              url: makeUrl(typeSlug, plzSlug),
-              plz: plz,
-              type: type,
-            });
-          });  
-        })
+        _.each(ortSlugs, function(slug, ort) {
+          tasks.push({
+            url: makeUrl(slug),
+            plz: ort,
+            type: 'Mietwohnung',
+          });
+        });  
 
         return tasks;
       }(),
