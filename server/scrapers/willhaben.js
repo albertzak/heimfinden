@@ -6,45 +6,39 @@ Meteor.startup(function () {
 
       resultsTasks: function() {
 
-        var plzAreaIds = {
-          1010: 117223,
-          1030: 117225,
-          1040: 117226,
-          1060: 117228,
-          1070: 117229,
-          1080: 117230,
-          1090: 117231,
-          1170: 117239,
-          1180: 117240,
-          1190: 117241
+        var ortSlugs = {
+          'Bruck-Mürzzuschlag': 'bruck-muerzzuschlag',
+          'Deutschlandsberg': 'deutschlandsberg',
+          'Graz': 'graz',
+          'Graz-Umgebung': 'graz-umgebung',
+          'Hartberg-Fürstenfeld': 'hartberg-fuerstenfeld',
+          'Leibnitz': 'leibnitz',
+          'Leoben': 'leoben',
+          'Liezen': 'liezen',
+          'Murau': 'murau',
+          'Murtal': 'murtal',
+          'Südoststeiermark': 'südoststeiermark',
+          'Voitsberg': 'voitsberg',
+          'Weiz': 'weiz'
         };
 
-        var typeSlugs = {
-          'Wohnung': 'mietwohnungen/mietwohnung-angebote?',
-          'Lagerraum': 'gewerbeimmobilien-mieten/gewerbeimmobilien-angebote?PROPERTY_TYPE=7%3B18',
-          'Geschäftslokal': 'gewerbeimmobilien-mieten/gewerbeimmobilien-angebote?PROPERTY_TYPE=10'
-        };
 
-        var makeUrl = function(typeSlug, areaId) {
+        var makeUrl = function(slug) {
           return [
-            'http://www.willhaben.at/iad/immobilien/',
-            typeSlug,
-            '&parent_areaid=900&areaId=',
-            areaId
+            'http://www.willhaben.at/iad/immobilien/mietwohnungen/steiermark/',
+            slug
           ].join('');
         };
 
         tasks = [];
 
-        _.each(typeSlugs, function(typeSlug, type) {
-          _.each(plzAreaIds, function(areaId, plz) {
-            tasks.push({
-              url: makeUrl(typeSlug, areaId),
-              plz: plz,
-              type: type,
-            });
-          });  
-        })
+        _.each(ortSlugs, function(slug, ort) {
+          tasks.push({
+            url: makeUrl(slug),
+            plz: ort,
+            type: 'Mietwohnung',
+          });
+        });
 
         return tasks;
       }(),
@@ -54,7 +48,7 @@ Meteor.startup(function () {
         return {
           url:   'http://www.willhaben.at' + $(el).find('.img-link').attr('href'),
           detail: {
-            agency: $(el).find('.media-body .bot-1').html().split('<br>')[1].trim(),
+            agency: $(el).find('.media-body .bot-1').html() && $(el).find('.media-body .bot-1').html().split('<br>')[1].trim(),
           }
         };
       },
