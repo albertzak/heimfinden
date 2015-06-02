@@ -37,7 +37,7 @@ Template.listing.helpers({
   },
 
   agencyLabel: function() {
-    return (this.agency === 'Privat' ? 'Privat' : 'Makler');
+    return (/Privat/.test(this.agency) ? 'Privat' : 'Makler');
   },
 
   agencyAttr: function() {
@@ -45,7 +45,7 @@ Template.listing.helpers({
     var deposit = Math.ceil(this.price * 3);
     var tax = Math.ceil(this.price * 36 * 0.01);
 
-    if (this.agency === 'Privat') {
+    if (/Privat/.test(this.agency)) {
       return { 
         'class': 'label label-success',
         'title': '<b>Keine Maklerprovision! :)</b> <br>' +

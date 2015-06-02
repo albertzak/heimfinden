@@ -121,7 +121,7 @@ Scraper = {
       if ( ! Listings.findOne({url: task.url})) {
         ScraperTasks.register({
             url:       parsedResult.url,
-            plz:       parseInt(task.plz),
+            plz:       task.plz,
             type:      task.type,
             source:    scraper.name,
             parseType: 'detail',

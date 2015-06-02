@@ -1,8 +1,9 @@
 # Heimfinden²
+## Steiermark Edition
 
-The opinionated real estate search engine. Find an affordable place to rent, only in Vienna's most stylish districts.
+The opinionated real estate search engine. Find an affordable place to rent.
 
-http://heimfinden.meteor.com
+http://heimfinden-stmk.meteor.com
 
 [![Screenshot of Heimfinden²](https://albertzak.com/d/images/heimfinden2-screenshot.png)](https://albertzak.com/d/images/heimfinden2-screenshot.png)
 
