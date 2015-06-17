@@ -7,10 +7,15 @@
             Bezirk
             <span class="label label-success">STMK</span>
           </h4>
-          <div class="plzwrapper">
-            {{#each plz}}
-              <span {{plzAttr this}}>{{this}}</span>
-            {{/each}}
+
+          <a class="label label-default" role="button" data-toggle="collapse" href="#plzCollapse" aria-expanded="false" aria-controls="plzCollapse">Auswählen</a>
+
+          <div class="collapse" id="plzCollapse">
+            <div class="plzwrapper">
+              {{#each plz}}
+                <span {{plzAttr this}}>{{this}}</span>
+              {{/each}}
+            </div>
           </div>
         </div>
 
